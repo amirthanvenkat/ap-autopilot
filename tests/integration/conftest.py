@@ -18,6 +18,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 from src.app import create_app
 from src.common.config import Settings
 from src.common.deps import Dependencies
+from src.common.runner import TaskResult, sweep
 
 
 @pytest_asyncio.fixture
@@ -71,3 +72,24 @@ async def seed_watch_cursor(engine: AsyncEngine, email: str, history_id: str) ->
             ),
             {"email": email, "history_id": int(history_id)},
         )
+
+
+async def drain(deps: Dependencies, *, max_rounds: int = 12) -> list[TaskResult]:
+    """Sweep until the queue stops producing work.
+
+    One sweep is never enough to take a document all the way through.
+    Processing a Gmail notification queues the extraction completion that
+    follows it, so the queue grows while it is being drained. In production
+    the publish nudges a worker the moment each task lands; a test has to
+    ask for the next round itself.
+    """
+    collected: list[TaskResult] = []
+    for _ in range(max_rounds):
+        results = await sweep(deps, limit=50)
+        if not results:
+            return collected
+        collected.extend(results)
+    raise AssertionError(
+        f"queue still producing work after {max_rounds} rounds: "
+        f"{[item.task_id for item in collected]}"
+    )

@@ -20,7 +20,7 @@ from src.common.outbox import HANDLER_GMAIL_NOTIFY, task_id_for
 from src.common.runner import sweep
 from src.ingestion.service import SOURCE_GMAIL, SOURCE_UPLOAD, ingest_bytes
 from tests.conftest import requires_database
-from tests.integration.conftest import count, fetch_one, seed_watch_cursor
+from tests.integration.conftest import count, drain, fetch_one, seed_watch_cursor
 
 pytestmark = requires_database
 
@@ -63,7 +63,7 @@ async def test_same_message_three_times_produces_one_of_everything(
             body=body,
         )
         assert accepted.task_id == task_id_for(HANDLER_GMAIL_NOTIFY, "msg-replay-1")
-        await sweep(deps)
+        await drain(deps)
 
     assert await count(engine, "processed_events", "handler = 'gmail_notify'") == 1
     assert await count(engine, "documents") == 1
@@ -141,7 +141,7 @@ async def test_duplicate_content_does_not_buy_a_second_extraction(
         received_at=datetime.now(tz=UTC),
         attempt_key="1",
     )
-    await sweep(deps)
+    await drain(deps)
     assert await count(engine, "extraction_results") == 1
 
     second = await ingest_bytes(
@@ -186,7 +186,7 @@ async def test_concurrent_redelivery_accepts_exactly_once(
     assert await count(engine, "processed_events") == 1
     assert await count(engine, "ingestion_outbox") == 1
 
-    await sweep(deps)
+    await drain(deps)
     assert await count(engine, "documents") == 1
     assert await count(engine, "extraction_results") == 1
 
@@ -202,7 +202,7 @@ async def test_crash_after_acceptance_loses_nothing(
     would see the marker and the invoice would be lost.
     """
     await seed_watch_cursor(engine, EMAIL, "2000")
-    await accept_push(
+    accepted = await accept_push(
         deps,
         handler=HANDLER_GMAIL_NOTIFY,
         authorization=auth_header["Authorization"],
@@ -222,10 +222,26 @@ async def test_crash_after_acceptance_loses_nothing(
     )
     assert repeat.duplicate is True
 
-    await sweep(deps)
+    await drain(deps)
     assert await count(engine, "documents") == 1
     assert await count(engine, "extraction_results") == 1
-    assert await count(engine, "ingestion_outbox", "status = 'DONE'") == 1
+
+    # The recovered task finished, and nothing was left behind. The count of
+    # DONE rows is not asserted directly: processing the notification queues
+    # the completion that follows it, so the total is a property of the
+    # pipeline rather than of this recovery.
+    row = await fetch_one(
+        engine,
+        "select status from ingestion_outbox where task_id = :task_id",
+        task_id=accepted.task_id,
+    )
+    assert row.status == "DONE"
+    assert (
+        await count(
+            engine, "ingestion_outbox", "status in ('PENDING','LEASED','FAILED')"
+        )
+        == 0
+    )
 
 
 async def test_a_poison_message_is_recorded_not_silently_acknowledged(
@@ -244,7 +260,7 @@ async def test_a_poison_message_is_recorded_not_silently_acknowledged(
     )
     assert accepted.duplicate is False
 
-    results = await sweep(deps)
+    results = await drain(deps)
     assert [item.result for item in results] == ["failed"]
 
     row = await fetch_one(
@@ -294,8 +310,8 @@ async def test_a_transient_failure_returns_to_the_queue(
     )
     assert row.status == "PENDING"
 
-    second = await sweep(deps)
-    assert [item.result for item in second] == ["done"]
+    second = await drain(deps)
+    assert {item.result for item in second} == {"done"}
     assert await count(engine, "extraction_results") == 1
 
 
@@ -318,7 +334,7 @@ async def test_three_attachments_become_three_documents(
         authorization=auth_header["Authorization"],
         body=envelope("msg-three", history_id="1000"),
     )
-    await sweep(deps)
+    await drain(deps)
 
     grouped = await fetch_one(
         engine,

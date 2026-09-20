@@ -19,19 +19,29 @@ import pytest
 import pytest_asyncio
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
+from sqlalchemy.pool import NullPool
 
 from src.common.config import Settings
 from src.common.deps import Dependencies
 from src.common.messaging import NullPublisher
 from src.common.oidc import SharedSecretVerifier
+from src.common.runtime import configure_event_loop
 from src.common.storage import LocalObjectStore
 from src.extraction.docai import FixtureDocumentAIClient
 from src.ingestion.gmail import FixtureGmailClient
+
+# psycopg's async driver refuses the proactor loop that Windows defaults to.
+# Applied at import, before pytest-asyncio creates any loop, or every
+# integration test fails at connect time.
+configure_event_loop()
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 FIXTURES_DIR = REPO_ROOT / "fixtures"
 TEST_DATABASE_URL = os.environ.get("TEST_DATABASE_URL", "")
 DEV_TOKEN = "test-dev-token"
+
+# The migration runs once per session, not once per test.
+_schema_applied = False
 
 _TABLES = (
     "extraction_fields",
@@ -101,37 +111,40 @@ async def engine(fixtures_settings: Settings) -> AsyncIterator[AsyncEngine]:
     url = TEST_DATABASE_URL
     if url.startswith("postgresql://"):
         url = url.replace("postgresql://", "postgresql+psycopg://", 1)
-    created = create_async_engine(url, poolclass=None)
-    await _apply_schema(created)
+    # NullPool: each test gets its own engine, and a pooled connection
+    # outliving the loop that made it surfaces as a resource warning at
+    # interpreter shutdown rather than anywhere useful.
+    created = create_async_engine(url, poolclass=NullPool)
+    await _apply_schema(created, url)
     try:
         yield created
     finally:
         await created.dispose()
 
 
-async def _apply_schema(engine: AsyncEngine) -> None:
-    """Apply the Alembic migration, then clear every table."""
-    from alembic import command
-    from alembic.config import Config
+async def _apply_schema(engine: AsyncEngine, url: str) -> None:
+    """Apply the Alembic migration once, then clear every table.
 
-    def _migrate() -> None:
-        config = Config(str(REPO_ROOT / "alembic.ini"))
-        config.set_main_option("script_location", str(REPO_ROOT / "sql" / "schema"))
-        command.upgrade(config, "head")
-
-    async with engine.begin() as conn:
-        existing = (
-            await conn.execute(
-                text(
-                    "select count(*) from information_schema.tables "
-                    "where table_schema = 'public' and table_name = 'documents'"
-                )
-            )
-        ).scalar_one()
-    if not existing:
+    The URL is handed to Alembic explicitly. Without it env.py falls back to
+    the application's DATABASE_URL and tries to reach a database that is not
+    the one under test, which on Windows hangs until the TCP connect times
+    out rather than failing.
+    """
+    global _schema_applied
+    if not _schema_applied:
         import asyncio
 
+        from alembic import command
+        from alembic.config import Config
+
+        def _migrate() -> None:
+            config = Config(str(REPO_ROOT / "alembic.ini"))
+            config.set_main_option("script_location", str(REPO_ROOT / "sql" / "schema"))
+            config.set_main_option("sqlalchemy.url", url)
+            command.upgrade(config, "head")
+
         await asyncio.to_thread(_migrate)
+        _schema_applied = True
 
     async with engine.begin() as conn:
         await conn.execute(
