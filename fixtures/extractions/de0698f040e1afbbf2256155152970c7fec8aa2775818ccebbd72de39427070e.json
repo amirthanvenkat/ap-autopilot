@@ -1,0 +1,311 @@
+{
+  "entities": [
+    {
+      "confidence": 0.87,
+      "mentionText": "Westmoor Timber Merchants",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "supplier_name"
+    },
+    {
+      "confidence": 0.86,
+      "mentionText": "198922334G",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "supplier_tax_id"
+    },
+    {
+      "confidence": 0.88,
+      "mentionText": "WTM-0450",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "invoice_id"
+    },
+    {
+      "confidence": 0.86,
+      "mentionText": "2026-07-24",
+      "normalizedValue": {
+        "dateValue": {
+          "day": 24,
+          "month": 7,
+          "year": 2026
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "invoice_date"
+    },
+    {
+      "confidence": 0.86,
+      "mentionText": "2026-08-23",
+      "normalizedValue": {
+        "dateValue": {
+          "day": 23,
+          "month": 8,
+          "year": 2026
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "due_date"
+    },
+    {
+      "confidence": 0.86,
+      "mentionText": "3180.00",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "SGD",
+          "nanos": 0,
+          "units": "3180"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "net_amount"
+    },
+    {
+      "confidence": 0.86,
+      "mentionText": "286.20",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "SGD",
+          "nanos": 200000000,
+          "units": "286"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "total_tax_amount"
+    },
+    {
+      "confidence": 0.88,
+      "mentionText": "3466.20",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "SGD",
+          "nanos": 200000000,
+          "units": "3466"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "total_amount"
+    },
+    {
+      "confidence": 0.87,
+      "mentionText": "SGD",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "currency"
+    },
+    {
+      "confidence": 0.82,
+      "mentionText": "Plywood sheets, 18mm",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.82,
+          "mentionText": "Plywood sheets, 18mm",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.82,
+          "mentionText": "60",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.82,
+          "mentionText": "34.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "34"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.82,
+          "mentionText": "2040.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "2040"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    },
+    {
+      "confidence": 0.8,
+      "mentionText": "Timber battens, 2.4m",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.8,
+          "mentionText": "Timber battens, 2.4m",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.8,
+          "mentionText": "120",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.8,
+          "mentionText": "9.50",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 500000000,
+              "units": "9"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.8,
+          "mentionText": "1140.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "1140"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    }
+  ],
+  "mimeType": "application/pdf",
+  "pages": [
+    {
+      "dimension": {
+        "height": 842,
+        "unit": "points",
+        "width": 595
+      },
+      "pageNumber": 1
+    }
+  ],
+  "text": "Westmoor Timber Merchants\nWTM-0450\n3466.20\n"
+}

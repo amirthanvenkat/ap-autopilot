@@ -1,0 +1,37 @@
+{
+  "id": "msg-0004",
+  "threadId": "thread-msg-0004",
+  "labelIds": [
+    "ap-inbox",
+    "INBOX"
+  ],
+  "internalDate": "1755859200000",
+  "payload": {
+    "mimeType": "multipart/mixed",
+    "parts": [
+      {
+        "partId": "0",
+        "mimeType": "text/plain",
+        "filename": "",
+        "body": {
+          "size": 220
+        }
+      },
+      {
+        "partId": "2",
+        "mimeType": "application/pdf",
+        "filename": "pelletier-fournitures.pdf",
+        "headers": [
+          {
+            "name": "Content-Disposition",
+            "value": "attachment; filename=\"pelletier-fournitures.pdf\""
+          }
+        ],
+        "body": {
+          "attachmentId": "att-pelletier-fournitures",
+          "size": 24195
+        }
+      }
+    ]
+  }
+}

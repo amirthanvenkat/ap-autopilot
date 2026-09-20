@@ -1,0 +1,311 @@
+{
+  "entities": [
+    {
+      "confidence": 0.98,
+      "mentionText": "Cedarline Print Works",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "supplier_name"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "198800321H",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "supplier_tax_id"
+    },
+    {
+      "confidence": 0.99,
+      "mentionText": "CPW-5567",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "invoice_id"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-08-14",
+      "normalizedValue": {
+        "dateValue": {
+          "day": 14,
+          "month": 8,
+          "year": 2026
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "invoice_date"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-09-13",
+      "normalizedValue": {
+        "dateValue": {
+          "day": 13,
+          "month": 9,
+          "year": 2026
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "due_date"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "742.50",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "SGD",
+          "nanos": 500000000,
+          "units": "742"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "net_amount"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "66.83",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "SGD",
+          "nanos": 830000000,
+          "units": "66"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "total_tax_amount"
+    },
+    {
+      "confidence": 0.99,
+      "mentionText": "809.33",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "SGD",
+          "nanos": 330000000,
+          "units": "809"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "total_amount"
+    },
+    {
+      "confidence": 0.98,
+      "mentionText": "SGD",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "currency"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Business cards, 500 units",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Business cards, 500 units",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "5",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "45.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "45"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "225.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "225"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Brochure printing, A5 gloss",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Brochure printing, A5 gloss",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "750",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "0.69",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 690000000,
+              "units": "0"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "517.50",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 500000000,
+              "units": "517"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    }
+  ],
+  "mimeType": "application/pdf",
+  "pages": [
+    {
+      "dimension": {
+        "height": 842,
+        "unit": "points",
+        "width": 595
+      },
+      "pageNumber": 1
+    }
+  ],
+  "text": "Cedarline Print Works\nCPW-5567\n809.33\n"
+}

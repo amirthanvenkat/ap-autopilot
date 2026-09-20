@@ -1,0 +1,387 @@
+{
+  "entities": [
+    {
+      "confidence": 0.98,
+      "mentionText": "Pelletier Fournitures SARL",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "supplier_name"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "FR76512348901",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "supplier_tax_id"
+    },
+    {
+      "confidence": 0.99,
+      "mentionText": "FAC-2026-0331",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "invoice_id"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-08-09",
+      "normalizedValue": {
+        "dateValue": {
+          "day": 9,
+          "month": 8,
+          "year": 2026
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "invoice_date"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-09-08",
+      "normalizedValue": {
+        "dateValue": {
+          "day": 8,
+          "month": 9,
+          "year": 2026
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "due_date"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2450.00",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "EUR",
+          "nanos": 0,
+          "units": "2450"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "net_amount"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "490.00",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "EUR",
+          "nanos": 0,
+          "units": "490"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "total_tax_amount"
+    },
+    {
+      "confidence": 0.99,
+      "mentionText": "2940.00",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "EUR",
+          "nanos": 0,
+          "units": "2940"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "total_amount"
+    },
+    {
+      "confidence": 0.98,
+      "mentionText": "EUR",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "currency"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Papier A4, carton de 5 rames",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Papier A4, carton de 5 rames",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "10",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "38.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "EUR",
+              "nanos": 0,
+              "units": "38"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "380.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "EUR",
+              "nanos": 0,
+              "units": "380"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Cartouches d'encre, noir",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Cartouches d'encre, noir",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "14",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "72.50",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "EUR",
+              "nanos": 500000000,
+              "units": "72"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "1015.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "EUR",
+              "nanos": 0,
+              "units": "1015"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Chaises de bureau ergonomiques",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Chaises de bureau ergonomiques",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "5",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "211.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "EUR",
+              "nanos": 0,
+              "units": "211"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "1055.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "EUR",
+              "nanos": 0,
+              "units": "1055"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    }
+  ],
+  "mimeType": "application/pdf",
+  "pages": [
+    {
+      "dimension": {
+        "height": 842,
+        "unit": "points",
+        "width": 595
+      },
+      "pageNumber": 1
+    }
+  ],
+  "text": "Pelletier Fournitures SARL\nFAC-2026-0331\n2940.00\n"
+}

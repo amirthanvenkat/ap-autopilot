@@ -1,0 +1,387 @@
+{
+  "entities": [
+    {
+      "confidence": 0.98,
+      "mentionText": "Meridian Facilities Management",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "supplier_name"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "200validated",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "supplier_tax_id"
+    },
+    {
+      "confidence": 0.99,
+      "mentionText": "MFM-4410",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "invoice_id"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-08-01",
+      "normalizedValue": {
+        "dateValue": {
+          "day": 1,
+          "month": 8,
+          "year": 2026
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "invoice_date"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-08-31",
+      "normalizedValue": {
+        "dateValue": {
+          "day": 31,
+          "month": 8,
+          "year": 2026
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "due_date"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "5600.00",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "SGD",
+          "nanos": 0,
+          "units": "5600"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "net_amount"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "504.00",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "SGD",
+          "nanos": 0,
+          "units": "504"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "total_tax_amount"
+    },
+    {
+      "confidence": 0.99,
+      "mentionText": "6104.00",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "SGD",
+          "nanos": 0,
+          "units": "6104"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "total_amount"
+    },
+    {
+      "confidence": 0.98,
+      "mentionText": "SGD",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "currency"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Office cleaning, August",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Office cleaning, August",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "1",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "3200.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "3200"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "3200.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "3200"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Pantry restocking",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Pantry restocking",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "1",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "900.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "900"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "900.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "900"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Pest control, quarterly",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Pest control, quarterly",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "1",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "1500.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "1500"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "1500.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "1500"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    }
+  ],
+  "mimeType": "application/pdf",
+  "pages": [
+    {
+      "dimension": {
+        "height": 842,
+        "unit": "points",
+        "width": 595
+      },
+      "pageNumber": 1
+    }
+  ],
+  "text": "Meridian Facilities Management\nMFM-4410\n6104.00\n"
+}

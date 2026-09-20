@@ -1,0 +1,387 @@
+{
+  "entities": [
+    {
+      "confidence": 0.98,
+      "mentionText": "Bluewave Logistics Pte Ltd",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "supplier_name"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "199905678M",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "supplier_tax_id"
+    },
+    {
+      "confidence": 0.99,
+      "mentionText": "BW-2026-0442",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "invoice_id"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-08-05",
+      "normalizedValue": {
+        "dateValue": {
+          "day": 5,
+          "month": 8,
+          "year": 2026
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "invoice_date"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-09-04",
+      "normalizedValue": {
+        "dateValue": {
+          "day": 4,
+          "month": 9,
+          "year": 2026
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "due_date"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "3450.00",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "SGD",
+          "nanos": 0,
+          "units": "3450"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "net_amount"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "310.50",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "SGD",
+          "nanos": 500000000,
+          "units": "310"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "total_tax_amount"
+    },
+    {
+      "confidence": 0.99,
+      "mentionText": "3760.50",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "SGD",
+          "nanos": 500000000,
+          "units": "3760"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "total_amount"
+    },
+    {
+      "confidence": 0.98,
+      "mentionText": "SGD",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "currency"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Freight forwarding, Singapore to Penang",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Freight forwarding, Singapore to Penang",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "1",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "2200.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "2200"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "2200.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "2200"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Customs clearance handling",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Customs clearance handling",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "1",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "450.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "450"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "450.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "450"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Warehouse storage, 10 days",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Warehouse storage, 10 days",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "10",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "80.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "80"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "800.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "800"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    }
+  ],
+  "mimeType": "application/pdf",
+  "pages": [
+    {
+      "dimension": {
+        "height": 842,
+        "unit": "points",
+        "width": 595
+      },
+      "pageNumber": 1
+    }
+  ],
+  "text": "Bluewave Logistics Pte Ltd\nBW-2026-0442\n3760.50\n"
+}

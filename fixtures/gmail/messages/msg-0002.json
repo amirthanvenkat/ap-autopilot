@@ -1,0 +1,56 @@
+{
+  "id": "msg-0002",
+  "threadId": "thread-msg-0002",
+  "labelIds": [
+    "ap-inbox",
+    "INBOX"
+  ],
+  "internalDate": "1755686400000",
+  "payload": {
+    "mimeType": "multipart/mixed",
+    "parts": [
+      {
+        "partId": "0",
+        "mimeType": "text/plain",
+        "filename": "",
+        "body": {
+          "size": 220
+        }
+      },
+      {
+        "partId": "1",
+        "mimeType": "image/png",
+        "filename": "signature-logo.png",
+        "headers": [
+          {
+            "name": "Content-ID",
+            "value": "<logo@example.test>"
+          },
+          {
+            "name": "Content-Disposition",
+            "value": "inline; filename=\"signature-logo.png\""
+          }
+        ],
+        "body": {
+          "attachmentId": "att-logo",
+          "size": 4096
+        }
+      },
+      {
+        "partId": "2",
+        "mimeType": "application/pdf",
+        "filename": "harbourpoint-it.pdf",
+        "headers": [
+          {
+            "name": "Content-Disposition",
+            "value": "attachment; filename=\"harbourpoint-it.pdf\""
+          }
+        ],
+        "body": {
+          "attachmentId": "att-harbourpoint-it",
+          "size": 22148
+        }
+      }
+    ]
+  }
+}

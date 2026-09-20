@@ -1,0 +1,311 @@
+{
+  "entities": [
+    {
+      "confidence": 0.98,
+      "mentionText": "Northgate Consulting Ltd",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "supplier_name"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "GB443221190",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "supplier_tax_id"
+    },
+    {
+      "confidence": 0.99,
+      "mentionText": "NGC-7781",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "invoice_id"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-07-28",
+      "normalizedValue": {
+        "dateValue": {
+          "day": 28,
+          "month": 7,
+          "year": 2026
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "invoice_date"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-08-27",
+      "normalizedValue": {
+        "dateValue": {
+          "day": 27,
+          "month": 8,
+          "year": 2026
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "due_date"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "8000.00",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "GBP",
+          "nanos": 0,
+          "units": "8000"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "net_amount"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "1600.00",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "GBP",
+          "nanos": 0,
+          "units": "1600"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "total_tax_amount"
+    },
+    {
+      "confidence": 0.99,
+      "mentionText": "9600.00",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "GBP",
+          "nanos": 0,
+          "units": "9600"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "total_amount"
+    },
+    {
+      "confidence": 0.98,
+      "mentionText": "GBP",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "currency"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Process review, senior consultant",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Process review, senior consultant",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "40",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "150.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "GBP",
+              "nanos": 0,
+              "units": "150"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "6000.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "GBP",
+              "nanos": 0,
+              "units": "6000"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Workshop facilitation",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Workshop facilitation",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "2",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "1000.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "GBP",
+              "nanos": 0,
+              "units": "1000"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "2000.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "GBP",
+              "nanos": 0,
+              "units": "2000"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    }
+  ],
+  "mimeType": "application/pdf",
+  "pages": [
+    {
+      "dimension": {
+        "height": 842,
+        "unit": "points",
+        "width": 595
+      },
+      "pageNumber": 1
+    }
+  ],
+  "text": "Northgate Consulting Ltd\nNGC-7781\n9600.00\n"
+}

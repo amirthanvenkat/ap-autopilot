@@ -1,0 +1,9 @@
+{
+  "message": {
+    "messageId": "pubsub-msg-0002",
+    "publishTime": "2026-08-20T02:00:00.000Z",
+    "data": "eyJidWNrZXQiOiJhcC1hdXRvcGlsb3QtZG9jcyIsIm5hbWUiOiJleHRyYWN0aW9ucy9KT0JfSURfSEVSRS9vdXRwdXQtMC10by0xLmpzb24ifQ==",
+    "attributes": {}
+  },
+  "subscription": "projects/ap-autopilot/subscriptions/extraction-complete-push"
+}

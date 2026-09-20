@@ -1,0 +1,67 @@
+{
+  "id": "msg-0001",
+  "threadId": "thread-msg-0001",
+  "labelIds": [
+    "ap-inbox",
+    "INBOX"
+  ],
+  "internalDate": "1755600000000",
+  "payload": {
+    "mimeType": "multipart/mixed",
+    "parts": [
+      {
+        "partId": "0",
+        "mimeType": "text/plain",
+        "filename": "",
+        "body": {
+          "size": 220
+        }
+      },
+      {
+        "partId": "2",
+        "mimeType": "application/pdf",
+        "filename": "acme-office-supplies.pdf",
+        "headers": [
+          {
+            "name": "Content-Disposition",
+            "value": "attachment; filename=\"acme-office-supplies.pdf\""
+          }
+        ],
+        "body": {
+          "attachmentId": "att-acme-office-supplies",
+          "size": 23827
+        }
+      },
+      {
+        "partId": "3",
+        "mimeType": "application/pdf",
+        "filename": "bluewave-logistics.pdf",
+        "headers": [
+          {
+            "name": "Content-Disposition",
+            "value": "attachment; filename=\"bluewave-logistics.pdf\""
+          }
+        ],
+        "body": {
+          "attachmentId": "att-bluewave-logistics",
+          "size": 23229
+        }
+      },
+      {
+        "partId": "4",
+        "mimeType": "application/pdf",
+        "filename": "northgate-consulting.pdf",
+        "headers": [
+          {
+            "name": "Content-Disposition",
+            "value": "attachment; filename=\"northgate-consulting.pdf\""
+          }
+        ],
+        "body": {
+          "attachmentId": "att-northgate-consulting",
+          "size": 23735
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,762 @@
+{
+  "info": {
+    "name": "ap-autopilot spec 01: ingestion and extraction",
+    "description": "Every endpoint in the ingestion and extraction module, plus the Document AI calls the pipeline makes. Saved examples were captured in fixtures mode, so no request here needs a live GCP project except the two Document AI folders. Set baseUrl and authToken in the collection variables. In fixtures mode authToken is OIDC_DEV_TOKEN; against a deployed service it is an OIDC identity token, for example: gcloud auth print-identity-token --audiences=$OIDC_AUDIENCE",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8000" },
+    { "key": "authToken", "value": "change-me-in-local-only" },
+    { "key": "documentId", "value": "01JQ8ZK4C7X2N9V0QF5R3TBD6E" },
+    { "key": "taskId", "value": "0f1d7a52-9c3e-5b81-a6d4-2f8e91b4c7a0" },
+    { "key": "jobId", "value": "3c7b1e48-2a95-5d6f-b013-8e4a7c2d95f1" },
+    { "key": "gcpProject", "value": "ap-autopilot" },
+    { "key": "gcpLocation", "value": "asia-southeast1" },
+    { "key": "processorId", "value": "REPLACE_WITH_PROCESSOR_ID" },
+    { "key": "gcsBucket", "value": "ap-autopilot-docs" },
+    {
+      "key": "operationName",
+      "value": "projects/123456789/locations/asia-southeast1/operations/9876543210"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{authToken}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "Documents",
+      "item": [
+        {
+          "name": "Upload a document",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "fixtures/source/acme-office-supplies.pdf",
+                  "description": "Any of the committed fixtures under fixtures/source/"
+                }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/v1/documents", "host": ["{{baseUrl}}"], "path": ["v1", "documents"] },
+            "description": "Deduplicates on content synchronously. A new document returns 202; bytes already known return 200 with the existing document_id, because 202 would assert a creation that did not happen. Rejects 415 for unsupported types and 413 above 20 MB."
+          },
+          "response": [
+            {
+              "name": "202 Accepted, new document",
+              "originalRequest": {
+                "method": "POST",
+                "url": { "raw": "{{baseUrl}}/v1/documents", "host": ["{{baseUrl}}"], "path": ["v1", "documents"] }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Location", "value": "/v1/documents/01JQ8ZK4C7X2N9V0QF5R3TBD6E" }
+              ],
+              "body": "{\n  \"document_id\": \"01JQ8ZK4C7X2N9V0QF5R3TBD6E\",\n  \"status\": \"EXTRACTING\",\n  \"received_at\": \"2026-09-19T04:12:33.481920Z\",\n  \"content_hash\": \"9f2c4a1d8b3e57061f4d2a9c8e7b5304a1d6f8e2c3b90a7d4e1f6c2b8a5d3907\",\n  \"duplicate\": false\n}"
+            },
+            {
+              "name": "200 OK, the same bytes again",
+              "originalRequest": {
+                "method": "POST",
+                "url": { "raw": "{{baseUrl}}/v1/documents", "host": ["{{baseUrl}}"], "path": ["v1", "documents"] }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" },
+                { "key": "Location", "value": "/v1/documents/01JQ8ZK4C7X2N9V0QF5R3TBD6E" }
+              ],
+              "body": "{\n  \"document_id\": \"01JQ8ZK4C7X2N9V0QF5R3TBD6E\",\n  \"status\": \"EXTRACTED\",\n  \"received_at\": \"2026-09-19T04:14:02.115774Z\",\n  \"content_hash\": \"9f2c4a1d8b3e57061f4d2a9c8e7b5304a1d6f8e2c3b90a7d4e1f6c2b8a5d3907\",\n  \"duplicate\": true\n}"
+            },
+            {
+              "name": "415 Unsupported Media Type",
+              "originalRequest": {
+                "method": "POST",
+                "url": { "raw": "{{baseUrl}}/v1/documents", "host": ["{{baseUrl}}"], "path": ["v1", "documents"] }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"error\": \"UNSUPPORTED_MEDIA_TYPE\",\n  \"message\": \"Unsupported media type\",\n  \"detail\": \"declared=text/plain sniffed=unknown; accepted: application/pdf, image/jpeg, image/png, image/tiff\"\n}"
+            },
+            {
+              "name": "413 Payload Too Large",
+              "originalRequest": {
+                "method": "POST",
+                "url": { "raw": "{{baseUrl}}/v1/documents", "host": ["{{baseUrl}}"], "path": ["v1", "documents"] }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"error\": \"PAYLOAD_TOO_LARGE\",\n  \"message\": \"File exceeds the size limit\",\n  \"detail\": \"22020097 bytes, limit 20971520\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get document status and extraction",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/documents/{{documentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "documents", "{{documentId}}"]
+            },
+            "description": "Status is derived from the latest extraction job, not stored on the document, so the two can never disagree. One of ACCEPTED, EXTRACTING, EXTRACTED or FAILED."
+          },
+          "response": [
+            {
+              "name": "200 OK, extracted",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/v1/documents/{{documentId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["v1", "documents", "{{documentId}}"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"document_id\": \"01JQ8ZK4C7X2N9V0QF5R3TBD6E\",\n  \"status\": \"EXTRACTED\",\n  \"content_hash\": \"9f2c4a1d8b3e57061f4d2a9c8e7b5304a1d6f8e2c3b90a7d4e1f6c2b8a5d3907\",\n  \"media_type\": \"application/pdf\",\n  \"byte_size\": 21637,\n  \"received_at\": \"2026-09-19T04:12:33.481920Z\",\n  \"job_id\": \"3c7b1e48-2a95-5d6f-b013-8e4a7c2d95f1\",\n  \"extraction_id\": \"a41f0c7b-6e25-5d93-8f10-2b7c4e9a6d38\",\n  \"error_code\": null,\n  \"error_detail\": null,\n  \"extraction\": {\n    \"extraction_id\": \"a41f0c7b-6e25-5d93-8f10-2b7c4e9a6d38\",\n    \"job_id\": \"3c7b1e48-2a95-5d6f-b013-8e4a7c2d95f1\",\n    \"document_id\": \"01JQ8ZK4C7X2N9V0QF5R3TBD6E\",\n    \"supplier_name\": \"Acme Office Supplies Pte Ltd\",\n    \"supplier_tax_id\": \"200812345K\",\n    \"invoice_number\": \"INV-1001\",\n    \"invoice_date\": \"2026-08-03\",\n    \"due_date\": \"2026-09-02\",\n    \"currency\": \"SGD\",\n    \"net_amount\": \"1200.0000\",\n    \"tax_amount\": \"108.0000\",\n    \"total_amount\": \"1308.0000\",\n    \"raw_gcs_uri\": \"gs://ap-autopilot-docs/extractions/3c7b1e48-2a95-5d6f-b013-8e4a7c2d95f1/\",\n    \"created_at\": \"2026-09-19T04:13:11.902334Z\",\n    \"fields\": [\n      { \"field_path\": \"/currency\", \"field_value\": \"SGD\", \"confidence\": \"0.9800\", \"page_number\": 1 },\n      { \"field_path\": \"/invoice_number\", \"field_value\": \"INV-1001\", \"confidence\": \"0.9900\", \"page_number\": 1 },\n      { \"field_path\": \"/line_items/0/description\", \"field_value\": \"A4 copier paper, box of 5 reams\", \"confidence\": \"0.9500\", \"page_number\": 1 },\n      { \"field_path\": \"/line_items/0/line_total\", \"field_value\": \"504.0000\", \"confidence\": \"0.9500\", \"page_number\": 1 },\n      { \"field_path\": \"/line_items/0/quantity\", \"field_value\": \"12.000000\", \"confidence\": \"0.9500\", \"page_number\": 1 },\n      { \"field_path\": \"/line_items/0/unit_price\", \"field_value\": \"42.0000\", \"confidence\": \"0.9500\", \"page_number\": 1 },\n      { \"field_path\": \"/total_amount\", \"field_value\": \"1308.0000\", \"confidence\": \"0.9900\", \"page_number\": 1 }\n    ]\n  }\n}"
+            },
+            {
+              "name": "200 OK, failed validation",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/v1/documents/{{documentId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["v1", "documents", "{{documentId}}"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"document_id\": \"01JQ8ZK4C7X2N9V0QF5R3TBD6F\",\n  \"status\": \"FAILED\",\n  \"content_hash\": \"1b8e0f37d2a94c6518f3b7e0a2d5c9418e7f0b3a6d2c54917e0f8b3a5d2c9146\",\n  \"media_type\": \"application/pdf\",\n  \"byte_size\": 21406,\n  \"received_at\": \"2026-09-19T05:02:19.774301Z\",\n  \"job_id\": \"7d2f9b14-3c86-5a70-9e42-1f5b8d3c6a29\",\n  \"extraction_id\": null,\n  \"error_code\": \"EXTRACTION_SCHEMA_ERROR\",\n  \"error_detail\": \"/invoice_number/confidence: 1.5 is greater than the maximum of 1\",\n  \"extraction\": null\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/v1/documents/does-not-exist",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["v1", "documents", "does-not-exist"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"error\": \"NOT_FOUND\",\n  \"message\": \"Unknown document\",\n  \"detail\": \"does-not-exist\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Push handlers",
+      "description": "Both return within their budget in every case. They verify the token, commit the marker and the unit of work in one statement, and return. No Gmail call, no object write and no Document AI call happens here.",
+      "item": [
+        {
+          "name": "Gmail notification",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": {\n    \"messageId\": \"pubsub-msg-0001\",\n    \"publishTime\": \"2026-08-20T02:00:00.000Z\",\n    \"data\": \"eyJlbWFpbEFkZHJlc3MiOiAiYXBAZXhhbXBsZS50ZXN0IiwgImhpc3RvcnlJZCI6ICIxNDAwIn0=\",\n    \"attributes\": {}\n  },\n  \"subscription\": \"projects/ap-autopilot/subscriptions/gmail-notifications-push\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/internal/gmail/notify",
+              "host": ["{{baseUrl}}"],
+              "path": ["internal", "gmail", "notify"]
+            },
+            "description": "The base64 data decodes to {\"emailAddress\": \"ap@example.test\", \"historyId\": \"1400\"}. A Gmail notification carries only an address and a history id, so this endpoint cannot know which messages it covers. That is the worker's job."
+          },
+          "response": [
+            {
+              "name": "200 OK, accepted",
+              "originalRequest": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/internal/gmail/notify",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["internal", "gmail", "notify"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"status\": \"accepted\",\n  \"message_id\": \"pubsub-msg-0001\",\n  \"task_id\": \"0f1d7a52-9c3e-5b81-a6d4-2f8e91b4c7a0\"\n}"
+            },
+            {
+              "name": "200 OK, redelivery of the same message",
+              "originalRequest": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/internal/gmail/notify",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["internal", "gmail", "notify"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"status\": \"duplicate\",\n  \"message_id\": \"pubsub-msg-0001\",\n  \"task_id\": \"0f1d7a52-9c3e-5b81-a6d4-2f8e91b4c7a0\"\n}"
+            },
+            {
+              "name": "401 Unauthorized, no token",
+              "originalRequest": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/internal/gmail/notify",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["internal", "gmail", "notify"]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"error\": \"AUTHENTICATION_ERROR\",\n  \"message\": \"Missing Authorization header\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Extraction complete",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": {\n    \"messageId\": \"pubsub-msg-0002\",\n    \"publishTime\": \"2026-08-20T02:04:11.000Z\",\n    \"data\": \"eyJidWNrZXQiOiAiYXAtYXV0b3BpbG90LWRvY3MiLCAibmFtZSI6ICJleHRyYWN0aW9ucy8zYzdiMWU0OC0yYTk1LTVkNmYtYjAxMy04ZTRhN2MyZDk1ZjEvb3V0cHV0LTAtdG8tMS5qc29uIn0=\",\n    \"attributes\": {}\n  },\n  \"subscription\": \"projects/ap-autopilot/subscriptions/extraction-complete-push\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/internal/extraction/complete",
+              "host": ["{{baseUrl}}"],
+              "path": ["internal", "extraction", "complete"]
+            },
+            "description": "One Document AI batch writes several output objects, so this endpoint receives several genuinely distinct messages for one job. They each get their own row. The worker decides which one finds the operation finished and assembles the result."
+          },
+          "response": [
+            {
+              "name": "200 OK, accepted",
+              "originalRequest": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/internal/extraction/complete",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["internal", "extraction", "complete"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"status\": \"accepted\",\n  \"message_id\": \"pubsub-msg-0002\",\n  \"task_id\": \"b6e3f901-47ad-5c28-83f5-9d0a2c716e4b\"\n}"
+            },
+            {
+              "name": "401 Unauthorized, wrong audience",
+              "originalRequest": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/internal/extraction/complete",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["internal", "extraction", "complete"]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"error\": \"AUTHENTICATION_ERROR\",\n  \"message\": \"Unexpected token audience\",\n  \"detail\": \"https://wrong.example.test\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Workers and schedules",
+      "description": "Where the slow work happens, and the scheduled jobs that keep the pipeline honest.",
+      "item": [
+        {
+          "name": "Run one queued task",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"task_id\": \"{{taskId}}\"\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/internal/work",
+              "host": ["{{baseUrl}}"],
+              "path": ["internal", "work"]
+            },
+            "description": "The work topic push target. Accepts either this plain body or a Pub/Sub envelope. A task already done, or leased by a live worker, is skipped rather than run twice."
+          },
+          "response": [
+            {
+              "name": "200 OK, done",
+              "originalRequest": {
+                "method": "POST",
+                "url": { "raw": "{{baseUrl}}/internal/work", "host": ["{{baseUrl}}"], "path": ["internal", "work"] }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"status\": \"done\",\n  \"task_id\": \"0f1d7a52-9c3e-5b81-a6d4-2f8e91b4c7a0\",\n  \"detail\": null\n}"
+            },
+            {
+              "name": "200 OK, already claimed",
+              "originalRequest": {
+                "method": "POST",
+                "url": { "raw": "{{baseUrl}}/internal/work", "host": ["{{baseUrl}}"], "path": ["internal", "work"] }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"status\": \"skipped\",\n  \"task_id\": \"0f1d7a52-9c3e-5b81-a6d4-2f8e91b4c7a0\",\n  \"detail\": \"not claimable\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Sweep pending work",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/internal/sweep?limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["internal", "sweep"],
+              "query": [{ "key": "limit", "value": "10" }]
+            },
+            "description": "Scheduled every ten seconds. The safety net for a publish that never landed, and the only delivery mechanism in fixtures mode."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "originalRequest": {
+                "method": "POST",
+                "url": { "raw": "{{baseUrl}}/internal/sweep", "host": ["{{baseUrl}}"], "path": ["internal", "sweep"] }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"claimed\": 2,\n  \"tasks\": [\n    { \"task_id\": \"0f1d7a52-9c3e-5b81-a6d4-2f8e91b4c7a0\", \"result\": \"done\", \"detail\": null },\n    { \"task_id\": \"b6e3f901-47ad-5c28-83f5-9d0a2c716e4b\", \"result\": \"done\", \"detail\": null }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Reap stale jobs",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/internal/extraction/reap",
+              "host": ["{{baseUrl}}"],
+              "path": ["internal", "extraction", "reap"]
+            },
+            "description": "Scheduled every minute. A failed Document AI operation writes no output, so no finalize event ever fires and nothing else would notice the job."
+          },
+          "response": [
+            {
+              "name": "200 OK, one job resolved",
+              "originalRequest": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/internal/extraction/reap",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["internal", "extraction", "reap"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"reaped\": 1,\n  \"jobs\": [\n    { \"job_id\": \"7d2f9b14-3c86-5a70-9e42-1f5b8d3c6a29\", \"outcome\": \"failed\" }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Renew the Gmail watch",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/internal/gmail/watch/renew",
+              "host": ["{{baseUrl}}"],
+              "path": ["internal", "gmail", "watch", "renew"]
+            },
+            "description": "Scheduled daily. users.watch lapses after seven days without announcing it, so without this ingestion stops silently about a week after setup."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "originalRequest": {
+                "method": "POST",
+                "url": {
+                  "raw": "{{baseUrl}}/internal/gmail/watch/renew",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["internal", "gmail", "watch", "renew"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"expiration\": \"1758326400000\",\n  \"history_id\": \"1400\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Visibility",
+      "item": [
+        {
+          "name": "Health and keepalive",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"] },
+            "description": "Scheduled every four minutes. Neon's free tier suspends idle compute after five minutes and resuming takes seconds, which would otherwise land on whichever invoice arrives first after a quiet spell."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "url": { "raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"] }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"status\": \"ok\",\n  \"database\": \"ok\",\n  \"fixtures_mode\": true\n}"
+            }
+          ]
+        },
+        {
+          "name": "Outbox summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/internal/outbox", "host": ["{{baseUrl}}"], "path": ["internal", "outbox"] },
+            "description": "A FAILED row is a poison message that was accepted, recorded and stopped. It is visible here rather than acknowledged away at the edge."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "url": { "raw": "{{baseUrl}}/internal/outbox", "host": ["{{baseUrl}}"], "path": ["internal", "outbox"] }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"counts\": {\n    \"DONE\": 18,\n    \"FAILED\": 1,\n    \"PENDING\": 0\n  },\n  \"recent_failures\": [\n    {\n      \"task_id\": \"c2a70e39-5f81-5b64-92d7-4e8a1c05f7b3\",\n      \"handler\": \"gmail_notify\",\n      \"attempts\": 1,\n      \"last_error\": \"PermanentError: Message carried no readable JSON payload: not json at all\",\n      \"updated_at\": \"2026-09-19T06:41:08.220914Z\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Dead lettered messages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/internal/deadletter?limit=50",
+              "host": ["{{baseUrl}}"],
+              "path": ["internal", "deadletter"],
+              "query": [{ "key": "limit", "value": "50" }]
+            },
+            "description": "Reads without acknowledging, so inspection does not consume the evidence. This is not an alert. A misconfigured audience dead letters every message and nobody watches a list, so alert on subscription depth as well."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/internal/deadletter",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["internal", "deadletter"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"count\": 1,\n  \"messages\": [\n    {\n      \"message_id\": \"14027731841522\",\n      \"publish_time\": \"2026-09-19T06:38:52.410Z\",\n      \"delivery_attempt\": 5,\n      \"attributes\": {}\n    }\n  ]\n}"
+            },
+            {
+              "name": "200 OK, fixtures mode",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/internal/deadletter",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["internal", "deadletter"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"count\": 0,\n  \"messages\": []\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Document AI",
+      "description": "The calls the extraction worker makes. These reach Google, so they need a real project and a live identity token. Get one with: gcloud auth print-access-token",
+      "item": [
+        {
+          "name": "Start a batch process",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{gcpAccessToken}}", "type": "string" }]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"inputDocuments\": {\n    \"gcsDocuments\": {\n      \"documents\": [\n        {\n          \"gcsUri\": \"gs://{{gcsBucket}}/inbox/9f2c4a1d8b3e57061f4d2a9c8e7b5304a1d6f8e2c3b90a7d4e1f6c2b8a5d3907.pdf\",\n          \"mimeType\": \"application/pdf\"\n        }\n      ]\n    }\n  },\n  \"documentOutputConfig\": {\n    \"gcsOutputConfig\": {\n      \"gcsUri\": \"gs://{{gcsBucket}}/extractions/{{jobId}}/\"\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "https://{{gcpLocation}}-documentai.googleapis.com/v1/projects/{{gcpProject}}/locations/{{gcpLocation}}/processors/{{processorId}}:batchProcess",
+              "protocol": "https",
+              "host": ["{{gcpLocation}}-documentai", "googleapis", "com"],
+              "path": [
+                "v1",
+                "projects",
+                "{{gcpProject}}",
+                "locations",
+                "{{gcpLocation}}",
+                "processors",
+                "{{processorId}}:batchProcess"
+              ]
+            },
+            "description": "The one genuinely non idempotent call in the pipeline, and the only one that costs money. The output prefix is the job id, so a duplicated start writes to the same place and the unique index on extraction_results(job_id) collapses the two into one row."
+          },
+          "response": [
+            {
+              "name": "200 OK, operation started",
+              "originalRequest": {
+                "method": "POST",
+                "url": {
+                  "raw": "https://{{gcpLocation}}-documentai.googleapis.com/v1/projects/{{gcpProject}}/locations/{{gcpLocation}}/processors/{{processorId}}:batchProcess",
+                  "protocol": "https",
+                  "host": ["{{gcpLocation}}-documentai", "googleapis", "com"],
+                  "path": ["v1", "projects", "{{gcpProject}}"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"name\": \"projects/123456789/locations/asia-southeast1/operations/9876543210\",\n  \"metadata\": {\n    \"@type\": \"type.googleapis.com/google.cloud.documentai.v1.BatchProcessMetadata\",\n    \"state\": \"RUNNING\",\n    \"createTime\": \"2026-09-19T04:12:35.117204Z\",\n    \"updateTime\": \"2026-09-19T04:12:35.117204Z\"\n  }\n}"
+            },
+            {
+              "name": "400 Bad Request, never retried",
+              "originalRequest": {
+                "method": "POST",
+                "url": {
+                  "raw": "https://{{gcpLocation}}-documentai.googleapis.com/v1/projects/{{gcpProject}}/locations/{{gcpLocation}}/processors/{{processorId}}:batchProcess",
+                  "protocol": "https",
+                  "host": ["{{gcpLocation}}-documentai", "googleapis", "com"],
+                  "path": ["v1", "projects", "{{gcpProject}}"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"Unsupported input file format.\",\n    \"status\": \"INVALID_ARGUMENT\"\n  }\n}"
+            },
+            {
+              "name": "503 Service Unavailable, retried with full jitter",
+              "originalRequest": {
+                "method": "POST",
+                "url": {
+                  "raw": "https://{{gcpLocation}}-documentai.googleapis.com/v1/projects/{{gcpProject}}/locations/{{gcpLocation}}/processors/{{processorId}}:batchProcess",
+                  "protocol": "https",
+                  "host": ["{{gcpLocation}}-documentai", "googleapis", "com"],
+                  "path": ["v1", "projects", "{{gcpProject}}"]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"The service is currently unavailable.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Poll the operation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{gcpAccessToken}}", "type": "string" }]
+            },
+            "url": {
+              "raw": "https://{{gcpLocation}}-documentai.googleapis.com/v1/{{operationName}}",
+              "protocol": "https",
+              "host": ["{{gcpLocation}}-documentai", "googleapis", "com"],
+              "path": ["v1", "{{operationName}}"]
+            },
+            "description": "The completion worker polls this outside any row lock. A network call inside the lock would hold it for the duration and serialise every other shard event behind it."
+          },
+          "response": [
+            {
+              "name": "200 OK, still running",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "https://{{gcpLocation}}-documentai.googleapis.com/v1/{{operationName}}",
+                  "protocol": "https",
+                  "host": ["{{gcpLocation}}-documentai", "googleapis", "com"],
+                  "path": ["v1", "{{operationName}}"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"name\": \"projects/123456789/locations/asia-southeast1/operations/9876543210\",\n  \"metadata\": {\n    \"@type\": \"type.googleapis.com/google.cloud.documentai.v1.BatchProcessMetadata\",\n    \"state\": \"RUNNING\"\n  },\n  \"done\": false\n}"
+            },
+            {
+              "name": "200 OK, succeeded",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "https://{{gcpLocation}}-documentai.googleapis.com/v1/{{operationName}}",
+                  "protocol": "https",
+                  "host": ["{{gcpLocation}}-documentai", "googleapis", "com"],
+                  "path": ["v1", "{{operationName}}"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"name\": \"projects/123456789/locations/asia-southeast1/operations/9876543210\",\n  \"metadata\": {\n    \"@type\": \"type.googleapis.com/google.cloud.documentai.v1.BatchProcessMetadata\",\n    \"state\": \"SUCCEEDED\",\n    \"individualProcessStatuses\": [\n      {\n        \"inputGcsSource\": \"gs://ap-autopilot-docs/inbox/9f2c4a1d8b3e57061f4d2a9c8e7b5304a1d6f8e2c3b90a7d4e1f6c2b8a5d3907.pdf\",\n        \"status\": {},\n        \"outputGcsDestination\": \"gs://ap-autopilot-docs/extractions/3c7b1e48-2a95-5d6f-b013-8e4a7c2d95f1/0\"\n      }\n    ]\n  },\n  \"done\": true,\n  \"response\": {\n    \"@type\": \"type.googleapis.com/google.cloud.documentai.v1.BatchProcessResponse\"\n  }\n}"
+            },
+            {
+              "name": "200 OK, failed",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "https://{{gcpLocation}}-documentai.googleapis.com/v1/{{operationName}}",
+                  "protocol": "https",
+                  "host": ["{{gcpLocation}}-documentai", "googleapis", "com"],
+                  "path": ["v1", "{{operationName}}"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"name\": \"projects/123456789/locations/asia-southeast1/operations/9876543211\",\n  \"done\": true,\n  \"error\": {\n    \"code\": 3,\n    \"message\": \"Document pages exceed the limit for this processor.\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "List the batch output objects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{gcpAccessToken}}", "type": "string" }]
+            },
+            "url": {
+              "raw": "https://storage.googleapis.com/storage/v1/b/{{gcsBucket}}/o?prefix=extractions%2F{{jobId}}%2F",
+              "protocol": "https",
+              "host": ["storage", "googleapis", "com"],
+              "path": ["storage", "v1", "b", "{{gcsBucket}}", "o"],
+              "query": [{ "key": "prefix", "value": "extractions%2F{{jobId}}%2F" }]
+            },
+            "description": "A multi page document is sharded across several output objects. Reading only the first would silently drop line items from later pages."
+          },
+          "response": [
+            {
+              "name": "200 OK, three shards",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "https://storage.googleapis.com/storage/v1/b/{{gcsBucket}}/o?prefix=extractions%2F{{jobId}}%2F",
+                  "protocol": "https",
+                  "host": ["storage", "googleapis", "com"],
+                  "path": ["storage", "v1", "b", "{{gcsBucket}}", "o"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"kind\": \"storage#objects\",\n  \"items\": [\n    {\n      \"name\": \"extractions/3c7b1e48-2a95-5d6f-b013-8e4a7c2d95f1/0/output-0-to-0.json\",\n      \"size\": \"184203\",\n      \"contentType\": \"application/json\"\n    },\n    {\n      \"name\": \"extractions/3c7b1e48-2a95-5d6f-b013-8e4a7c2d95f1/0/output-1-to-1.json\",\n      \"size\": \"176441\",\n      \"contentType\": \"application/json\"\n    },\n    {\n      \"name\": \"extractions/3c7b1e48-2a95-5d6f-b013-8e4a7c2d95f1/0/output-2-to-2.json\",\n      \"size\": \"151908\",\n      \"contentType\": \"application/json\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Upload a document, create if absent",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/pdf" }],
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{gcpAccessToken}}", "type": "string" }]
+            },
+            "body": { "mode": "file", "file": { "src": "fixtures/source/acme-office-supplies.pdf" } },
+            "url": {
+              "raw": "https://storage.googleapis.com/upload/storage/v1/b/{{gcsBucket}}/o?uploadType=media&name=inbox%2F9f2c4a1d8b3e57061f4d2a9c8e7b5304a1d6f8e2c3b90a7d4e1f6c2b8a5d3907.pdf&ifGenerationMatch=0",
+              "protocol": "https",
+              "host": ["storage", "googleapis", "com"],
+              "path": ["upload", "storage", "v1", "b", "{{gcsBucket}}", "o"],
+              "query": [
+                { "key": "uploadType", "value": "media" },
+                {
+                  "key": "name",
+                  "value": "inbox%2F9f2c4a1d8b3e57061f4d2a9c8e7b5304a1d6f8e2c3b90a7d4e1f6c2b8a5d3907.pdf"
+                },
+                { "key": "ifGenerationMatch", "value": "0" }
+              ]
+            },
+            "description": "The object path is the content hash, so a redelivery writes identical bytes to an identical path. The precondition turns the second write into a 412 rather than leaving an orphaned object behind, and the caller treats that 412 as success."
+          },
+          "response": [
+            {
+              "name": "200 OK, written",
+              "originalRequest": {
+                "method": "POST",
+                "url": {
+                  "raw": "https://storage.googleapis.com/upload/storage/v1/b/{{gcsBucket}}/o",
+                  "protocol": "https",
+                  "host": ["storage", "googleapis", "com"],
+                  "path": ["upload", "storage", "v1", "b", "{{gcsBucket}}", "o"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"kind\": \"storage#object\",\n  \"name\": \"inbox/9f2c4a1d8b3e57061f4d2a9c8e7b5304a1d6f8e2c3b90a7d4e1f6c2b8a5d3907.pdf\",\n  \"bucket\": \"ap-autopilot-docs\",\n  \"generation\": \"1758254553117204\",\n  \"size\": \"21637\",\n  \"contentType\": \"application/pdf\"\n}"
+            },
+            {
+              "name": "412 Precondition Failed, already present",
+              "originalRequest": {
+                "method": "POST",
+                "url": {
+                  "raw": "https://storage.googleapis.com/upload/storage/v1/b/{{gcsBucket}}/o",
+                  "protocol": "https",
+                  "host": ["storage", "googleapis", "com"],
+                  "path": ["upload", "storage", "v1", "b", "{{gcsBucket}}", "o"]
+                }
+              },
+              "status": "Precondition Failed",
+              "code": 412,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"error\": {\n    \"code\": 412,\n    \"message\": \"At least one of the pre-conditions you specified did not hold.\",\n    \"status\": \"FAILED_PRECONDITION\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

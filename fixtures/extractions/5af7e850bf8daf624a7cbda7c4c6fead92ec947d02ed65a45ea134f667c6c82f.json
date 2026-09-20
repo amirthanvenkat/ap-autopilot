@@ -1,0 +1,41 @@
+{
+  "entities": [
+    {
+      "confidence": 1.5,
+      "mentionText": "INV-BROKEN",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "invoice_id"
+    },
+    {
+      "confidence": 0.9,
+      "mentionText": "10.00",
+      "normalizedValue": {
+        "moneyValue": {
+          "currencyCode": "SGD",
+          "nanos": 0,
+          "units": "10"
+        }
+      },
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "total_amount"
+    }
+  ],
+  "mimeType": "application/pdf",
+  "pages": [
+    {
+      "pageNumber": 1
+    }
+  ]
+}
