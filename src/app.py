@@ -27,6 +27,7 @@ from src.common.errors import (
 )
 from src.common.logging import configure_logging, get_logger
 from src.common.routes_ops import router as ops_router
+from src.common.runtime import configure_event_loop
 from src.extraction.routes import router as extraction_router
 from src.ingestion.routes import router as ingestion_router
 
@@ -85,6 +86,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     """Build the application."""
     cfg = settings or get_settings()
     configure_logging(cfg.environment)
+    # Must happen before the server creates its loop, or every database
+    # call fails at connect time on Windows.
+    configure_event_loop()
 
     app = FastAPI(
         title="ap-autopilot",
