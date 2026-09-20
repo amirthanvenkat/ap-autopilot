@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ap-autopilot.invalid/schemas/invoice_extraction.schema.json",
+  "title": "Invoice extraction",
+  "description": "A normalised invoice extraction. Every scalar is an envelope carrying a value and the confidence that produced it. An absent key means the extractor never reported the field. A present key with a null value means the extractor reported the field and found nothing. Spec 02 treats those two cases differently, so they must not collapse into one another. Monetary amounts are strings, not JSON numbers, because a JSON number is parsed to a float before any validation runs and money must reach numeric(18,4) without passing through binary floating point.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "invoice_number",
+    "total_amount",
+    "currency",
+    "line_items"
+  ],
+  "properties": {
+    "supplier_name": { "$ref": "#/$defs/textField" },
+    "supplier_tax_id": { "$ref": "#/$defs/textField" },
+    "invoice_number": { "$ref": "#/$defs/textField" },
+    "invoice_date": { "$ref": "#/$defs/dateField" },
+    "due_date": { "$ref": "#/$defs/dateField" },
+    "currency": { "$ref": "#/$defs/currencyField" },
+    "net_amount": { "$ref": "#/$defs/moneyField" },
+    "tax_amount": { "$ref": "#/$defs/moneyField" },
+    "total_amount": { "$ref": "#/$defs/moneyField" },
+    "line_items": {
+      "type": "array",
+      "description": "One entry per invoice line. May be empty when the extractor found no line table.",
+      "items": { "$ref": "#/$defs/lineItem" }
+    },
+    "page_count": {
+      "type": ["integer", "null"],
+      "minimum": 1
+    }
+  },
+  "$defs": {
+    "confidence": {
+      "description": "Extractor confidence for the accompanying value.",
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "pageNumber": {
+      "type": ["integer", "null"],
+      "minimum": 1
+    },
+    "money": {
+      "description": "A decimal amount as a string. Up to four decimal places, matching numeric(18,4).",
+      "type": ["string", "null"],
+      "pattern": "^-?[0-9]{1,14}(\\.[0-9]{1,4})?$"
+    },
+    "quantity": {
+      "description": "A decimal quantity as a string, for the same reason amounts are strings.",
+      "type": ["string", "null"],
+      "pattern": "^-?[0-9]{1,14}(\\.[0-9]{1,6})?$"
+    },
+    "textField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "confidence"],
+      "properties": {
+        "value": { "type": ["string", "null"] },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "page_number": { "$ref": "#/$defs/pageNumber" }
+      }
+    },
+    "dateField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "confidence"],
+      "properties": {
+        "value": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "page_number": { "$ref": "#/$defs/pageNumber" }
+      }
+    },
+    "currencyField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "confidence"],
+      "properties": {
+        "value": {
+          "type": ["string", "null"],
+          "pattern": "^[A-Z]{3}$"
+        },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "page_number": { "$ref": "#/$defs/pageNumber" }
+      }
+    },
+    "moneyField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "confidence"],
+      "properties": {
+        "value": { "$ref": "#/$defs/money" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "page_number": { "$ref": "#/$defs/pageNumber" }
+      }
+    },
+    "quantityField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "confidence"],
+      "properties": {
+        "value": { "$ref": "#/$defs/quantity" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "page_number": { "$ref": "#/$defs/pageNumber" }
+      }
+    },
+    "lineItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description", "quantity", "unit_price", "line_total"],
+      "properties": {
+        "description": { "$ref": "#/$defs/textField" },
+        "quantity": { "$ref": "#/$defs/quantityField" },
+        "unit_price": { "$ref": "#/$defs/moneyField" },
+        "line_total": { "$ref": "#/$defs/moneyField" }
+      }
+    }
+  }
+}
