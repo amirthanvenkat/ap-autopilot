@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+node_modules/
+.DS_Store
+
+# Object store scratch written by fixtures mode at runtime.
+fixtures/gcs/
