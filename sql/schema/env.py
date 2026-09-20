@@ -24,8 +24,13 @@ target_metadata = metadata
 
 
 def _database_url() -> str:
-    """Settings own the URL, so the connection string is never duplicated."""
-    url = get_settings().database_url
+    """Settings own the URL, unless a caller supplied one.
+
+    The override exists so a test run, or a one-off migration against a
+    scratch database, can point Alembic somewhere without touching the
+    environment the application reads.
+    """
+    url = config.get_main_option("sqlalchemy.url", "") or get_settings().database_url
     if url.startswith("postgresql+psycopg://"):
         return url
     if url.startswith("postgres://"):
