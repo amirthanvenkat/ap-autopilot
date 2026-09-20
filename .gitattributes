@@ -1,0 +1,14 @@
+# Text is stored and checked out with LF everywhere, so the tree is byte
+# identical across platforms.
+* text=auto eol=lf
+
+# Fixture documents are binary. Without these rules core.autocrlf rewrites
+# them on checkout, every content hash in fixtures/manifest.json stops
+# matching, and fixtures mode fails for anyone who clones the repository.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.tif binary
+*.tiff binary
+fixtures/gmail/attachments/** binary
