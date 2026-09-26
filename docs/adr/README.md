@@ -34,3 +34,15 @@ Decisions from spec 02 section 12, taken on 2026-09-25:
   invoice, counts prior billing in match order, replaces rather than appends
   its own open exceptions, refuses to re-match a posted invoice, and checks
   against ordered quantity.
+
+Further spec 02 decisions, taken on 2026-09-26:
+
+- Extraction gains `po_number` and line `sku`, a spec 01 follow-up. Without
+  them no fixture invoice can match.
+- An exact duplicate is stored with `duplicate_of_invoice_id` set, and the
+  unique index excludes such rows, so `DUPLICATE_EXACT` has an invoice to
+  reference.
+- Billing beyond the ordered quantity raises a new `OVER_ORDER` at `BLOCK`.
+- Tax reconciles within a new `tax_abs` tolerance.
+- Tolerances take per-currency overrides.
+- `LOW_CONFIDENCE` applies to header fields only.
