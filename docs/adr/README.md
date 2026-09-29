@@ -46,3 +46,15 @@ Further spec 02 decisions, taken on 2026-09-26:
 - Tax reconciles within a new `tax_abs` tolerance.
 - Tolerances take per-currency overrides.
 - `LOW_CONFIDENCE` applies to header fields only.
+
+Spec 02 decisions taken on 2026-09-29:
+
+- Tax reconciles against the rate in effect on the invoice date only.
+- A PO line can be marked `TWO_WAY`. That skips the goods receipt checks
+  for services and keeps the price and ordered quantity checks.
+- Exceptions are upserted on `(invoice_id, exception_key)` and never
+  deleted, so `exception_id` survives a re-run. Rows no longer raised are
+  resolved by the matcher. `WAIVED` rows never reopen.
+- The match query takes a batch of invoice ids, with at most one invoice
+  per PO per batch, and the caller runs rounds. That keeps set-based
+  execution equivalent to matching one invoice at a time.

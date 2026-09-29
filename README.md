@@ -279,7 +279,10 @@ These go in migration `0002`. Migrations are forward-only.
 | `invoices.duplicate_of_invoice_id` | Makes `DUPLICATE_EXACT` storable (5.7) |
 | `invoices.invoice_number` becomes nullable | Extraction can report no invoice number. A not-null column would make the canonical insert fail |
 | `invoice_lines.match_method`, `match_score`, `suggested_po_line_id` | Record which rung of the line ladder matched (5.5) |
+| `po_lines.match_type` (`THREE_WAY` or `TWO_WAY`, default `THREE_WAY`) | Service lines have no goods receipt (6.1, adopted) |
 | `exceptions.source` (`MATCHER` or `REVIEWER`) | Lets a re-run touch only the rows the matcher owns |
+| `exceptions.exception_key`, unique with `invoice_id` | Stable identity across re-runs (6.8, adopted) |
+| `exceptions.resolved_by`, `resolved_at` | Tells a matcher auto-close apart from a reviewer decision |
 | `pg_trgm` extension and a GIN trigram index on normalised supplier names | Supplier resolution. Neon supports `pg_trgm`. Confirm when the migration runs |
 
 ### 5.4 Supplier resolution
@@ -301,8 +304,9 @@ lines, so a reviewer sees every problem in one pass.
 ### 5.5 The line match
 
 The match is one statement at `src/matching/queries/three_way_match.sql`,
-parameterised on `invoice_id`. The decisions of 2026-09-25 change the
-spec's version in four ways.
+parameterised on an array of invoice ids (6.9, adopted). Matching one
+invoice is the one-element case. The decisions of 2026-09-25 and
+2026-09-29 change the spec's version in five ways.
 
 **Line ladder.** Each invoice line is paired with a PO line by the first rung
 that succeeds:
@@ -328,6 +332,11 @@ gates:
 
 All other checks are independent.
 
+**Two-way lines** (6.1, adopted). A PO line with `match_type = 'TWO_WAY'`
+skips `NO_GOODS_RECEIPT` and `OVER_RECEIPT`. It still gets the price, line
+total and `OVER_ORDER` checks. The default is `THREE_WAY`, so a PO line is
+only exempt from the receipt checks when someone marks it.
+
 **Quantities.**
 
 - Split lines on one invoice that point at the same PO line are summed
@@ -348,18 +357,39 @@ All other checks are independent.
 limit, so a value exactly at the threshold passes. Boundary tests pin this at
 the threshold and one cent either side.
 
-**Concurrency.** The match first takes `select ... for update` on the
-`purchase_orders` row. Two invoices against one PO are matched one after the
-other, so neither can miss the other's billing. Invoices on different POs do
-not block each other. An invoice that references two POs is out of scope.
+**Concurrency.** The match first takes `select ... for update` on every
+`purchase_orders` row in the batch, in `po_id` order so two batches cannot
+deadlock. Two matches touching one PO run one after the other, so neither
+can miss the other's billing. Batches on different POs do not block each
+other. An invoice that references two POs is out of scope.
+
+**Batches** (6.9, adopted). A batch holds at most one invoice per PO. The reason: whether an earlier invoice uses up receipt capacity depends
+on whether it matched. That depends on its own checks, so a window sum
+inside one statement cannot know it. The caller therefore builds rounds.
+Each round takes the oldest pending invoice per PO, ordered by
+`(created_at, invoice_id)`, and matches the round in one statement. It
+repeats until nothing is pending. The results are identical to matching
+invoices one at a time in that order, which is what lets the SQL and the
+Python reference be compared exactly. Invoices with no PO do not compete
+for capacity, so they all go in the first round.
 
 **Re-runs.**
 
 - A `POSTED` invoice is never re-matched. The attempt raises a typed
   `PermanentError`.
-- For any other invoice, the matcher replaces its own open exceptions and
-  leaves `RESOLVED` and `WAIVED` rows alone. Section 6.8 challenges how that
-  replacement is done.
+- Otherwise exceptions are upserted, not replaced (6.8, adopted). Each row
+  carries an `exception_key` built from what it is about. Examples:
+  `line:<invoice_line_id>:PRICE_VARIANCE`,
+  `field:/invoice_date:LOW_CONFIDENCE`,
+  `duplicate:<other_invoice_id>:DUPLICATE_SUSPECTED`.
+  `(invoice_id, exception_key)` is unique.
+- A re-run that raises the same key updates the variance on the existing
+  row, so its `exception_id` never changes and spec 03 references stay
+  valid.
+- A matcher row that is `OPEN` but no longer raised becomes `RESOLVED` with
+  `resolved_by = 'MATCHER'`.
+- A `WAIVED` row is never reopened. Whether a reviewer's `RESOLVED` row
+  reopens when the matcher raises it again is open question 7.2.
 
 **Worked example: definition of done 5.** A PO line orders 100 units.
 
@@ -380,13 +410,15 @@ A second statement in the same transaction runs these:
 - `HEADER_TOTAL_MISMATCH`: the line sum differs from `net_amount` by more
   than `header_total_abs`.
 - `TAX_MISMATCH`: tax is non-zero and differs from net times the rate by
-  more than the new `tax_abs` tolerance. Zero tax is allowed, because
-  zero-rated and exempt supplies exist. Which rate applies is open question
-  7.1.
+  more than the new `tax_abs` tolerance. The rate is the one in effect on
+  the invoice date, decided on 2026-09-29. A rate that was valid at some
+  other date does not reconcile. Zero tax is allowed, because zero-rated and
+  exempt supplies exist. An invoice with no date cannot select a rate, so
+  the check is skipped. `LOW_CONFIDENCE` already blocks that invoice.
 - `CURRENCY_MISMATCH`: the invoice, PO and supplier currencies disagree.
 - `DATE_INVALID` (`WARN`): the invoice is dated before its PO, or in the
   future.
-- `TAX_ID_INVALID` (`WARN`): disabled until a verified pattern exists (7.2).
+- `TAX_ID_INVALID` (`WARN`): disabled until a verified pattern exists (7.1).
 - `LOW_CONFIDENCE`: applies to **header fields only**, decided on
   2026-09-26. A field that is present but has null confidence counts as low.
   A header field with a configured threshold that is absent, or present with
@@ -445,7 +477,7 @@ line_matching:                    # new, for ladder rung 3
   description_margin:    <to be set>
 
 tax:
-  tax_id_pattern: null            # null disables TAX_ID_INVALID (7.2)
+  tax_id_pattern: null            # null disables TAX_ID_INVALID (7.1)
 ```
 
 The loader rejects three things: a tax rate schedule with duplicate or
@@ -462,8 +494,9 @@ shape only. Its values are placeholders until they are chosen.
   quantised to four decimal places on both sides first, because Postgres
   `numeric` division and Python's `Decimal` context round differently.
 - `scripts/benchmark.py` times both versions at 10,000 invoice lines. The
-  timings go into `sql/README.md`. Section 6.9 raises a problem with this
-  benchmark.
+  timings go into `sql/README.md`. Both sides are timed per round over the
+  same batches (5.5), so the comparison measures set-based execution, not
+  round trips.
 - `scripts/seed.py` is deterministic under a fixed seed. It produces one
   scenario per exception type and at least twenty clean invoices. Its
   supplier names match the fixture suppliers so the demo resolves them.
@@ -483,10 +516,17 @@ shape only. Its values are placeholders until they are chosen.
 
 ## 6. Challenges to the spec 02 decisions
 
-These are places where the current design is weaker than it looks. Each one
-ends with a recommendation. None has been adopted yet.
+These are places where the design as first agreed is weaker than it looks.
+Each ends with a recommendation and its status.
 
-### 6.1 Services have no goods receipt
+| Challenge | Status |
+| --- | --- |
+| 6.1 Two-way lines for services | Adopted 2026-09-29, see 5.5 |
+| 6.8 Upsert exceptions on a stable key | Adopted 2026-09-29, see 5.5 |
+| 6.9 Batch the match query | Adopted 2026-09-29, see 5.5 |
+| 6.2 to 6.7, 6.10, 6.11 | Open. The design in section 5 does not include them |
+
+### 6.1 Services have no goods receipt (adopted)
 
 Several fixture suppliers sell services: consulting, marketing, security,
 software. A service PO normally has no goods receipt, so every such line
@@ -565,22 +605,23 @@ reviewer clears A. A is now over-received. This is first matched, first
 served. It is defensible, but it should be stated in the ADR, and the
 reviewer UI should show why A's status changed.
 
-### 6.8 Replacing open exceptions changes their ids
+### 6.8 Replacing open exceptions changes their ids (adopted)
 
 `exception_id` is a `bigserial`. If a re-run deletes and reinserts its open
 rows, every id changes. Any spec 03 audit entry or reviewer note pointing at
 an old id then refers to nothing.
 
-*Recommendation:*
+*Recommendation:* give each exception a stable key, upsert on it, and
+resolve the rows a re-run no longer raises.
 
-- Give exceptions a natural key: `(invoice_id, invoice_line_id,
-  exception_type, source)`.
-- Upsert on that key, and mark as `RESOLVED` any row the re-run no longer
-  raises.
-- A `WAIVED` row is not reopened by a re-run with the same key. Whether a
-  materially different variance should reopen it is open question 7.3.
+*As adopted* (5.5): the key first proposed,
+`(invoice_id, invoice_line_id, exception_type, source)`, is not unique
+enough. One invoice can have several header `LOW_CONFIDENCE` rows, one per
+field, and several `DUPLICATE_SUSPECTED` rows, one per earlier invoice.
+The adopted key is an explicit `exception_key` column that names the line,
+field or other invoice the exception is about.
 
-### 6.9 The benchmark compares per-invoice calls
+### 6.9 The benchmark compares per-invoice calls (adopted)
 
 The query is parameterised on one `invoice_id`. At 10,000 lines, the
 benchmark mostly measures round trips on both sides. It does not measure
@@ -613,19 +654,23 @@ Accept this and record it in the ADR.
 
 ## 7. Open questions
 
-1. **Tax rate selection.** Should an invoice reconcile against the rate in
-   effect on its invoice date, or against any configured rate? Spec 02
-   section 8 says both. The recommendation is the invoice date. That is
-   stricter, and it is what the rate schedule exists for.
-2. **Tax ID pattern.** Spec 02 section 8 requires the GST registration
+Settled on 2026-09-29: tax reconciles against the rate in effect on the
+invoice date.
+
+1. **Tax ID pattern.** Spec 02 section 8 requires the GST registration
    format to be checked against current IRAS guidance by a person, not
    generated. Until then, `tax_id_pattern` is `null` and `TAX_ID_INVALID`
    is off. Boot logs a warning.
-3. **Waived exceptions.** On a re-run, should a `WAIVED` exception reopen if
-   its variance has changed materially, or never reopen?
-4. **Values still to set:** the `currency_overrides` entries, and the
+2. **Reopening resolved exceptions.** `WAIVED` rows never reopen. Should a
+   row a reviewer marked `RESOLVED` reopen when a re-run raises the same
+   key again? The proposed answer is yes, because the underlying problem is
+   evidently still there.
+3. **Values still to set:** the `currency_overrides` entries, and the
    `line_matching` threshold and margin.
-5. **Challenges 6.1 to 6.10:** adopt, adapt or reject each one.
+4. **Invoice Parser field names.** `purchase_order` and
+   `line_item/product_code` (5.1) are still unverified. This environment
+   cannot reach Google's documentation, so a person has to confirm them.
+5. **Remaining challenges:** 6.2 to 6.7, 6.10 and 6.11.
 
 ---
 
@@ -646,7 +691,7 @@ Accept this and record it in the ADR.
 | `LINE_TOTAL_MISMATCH` | BLOCK | Line total differs from quantity times price |
 | `HEADER_TOTAL_MISMATCH` | BLOCK | Lines do not sum to net amount |
 | `TAX_MISMATCH` | BLOCK | Non-zero tax does not reconcile to the rate |
-| `TAX_ID_INVALID` | WARN | Tax ID fails the format check. Off until 7.2 is settled |
+| `TAX_ID_INVALID` | WARN | Tax ID fails the format check. Off until 7.1 is settled |
 | `CURRENCY_MISMATCH` | BLOCK | Invoice, PO and supplier currencies disagree |
 | `DATE_INVALID` | WARN | Dated before the PO or in the future |
 | `DUPLICATE_EXACT` | BLOCK | Same supplier and invoice number as an existing invoice |
