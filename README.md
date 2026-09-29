@@ -492,6 +492,10 @@ overlapping effective dates, an override for a currency code that is not
 three uppercase letters, and a negative tolerance. The JPY line shows the
 shape only. Its values are placeholders until they are chosen.
 
+Built so far: everything above except `line_matching`, which is added with
+ladder rung 3 once its values are chosen. The committed
+`currency_overrides` map is empty.
+
 ### 5.9 Proving the SQL
 
 - `src/matching/reference_match.py` implements the same ladder and checks
