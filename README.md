@@ -12,11 +12,11 @@ works, with the reasoning behind each decision written down.
 
 | Module | Spec | State |
 | --- | --- | --- |
-| Ingestion and extraction | `docs/specs/01-ingestion-and-extraction.md` | Built and tested |
-| Matching engine | `docs/specs/02-matching-engine.md` | Designed, not built. Section 5 of this file |
+| Ingestion and extraction | `docs/specs/01-ingestion-and-extraction.md` | Built and tested, including the spec 02 prerequisite in 5.1 |
+| Matching engine | `docs/specs/02-matching-engine.md` | Schema (migration `0002`) and rules loader built. Resolver and match query not built |
 | Review queue, posting, analytics, MCP server | Specs 03 to 05 | Not started |
 
-Everything in section 5 is a design. None of it exists in `src/` yet.
+Section 5 is mostly design. The parts built so far are 5.1, 5.3 and 5.8.
 
 ## Contents
 
@@ -233,23 +233,30 @@ supplier. Match each line against a PO and goods receipts. Then either clear
 the invoice for posting or break it down into typed exceptions. The module
 ends when the exception rows exist.
 
-### 5.1 Prerequisite: extraction must capture the PO number and SKU
+### 5.1 Prerequisite: extraction captures the PO number and SKU
 
-Neither `src/extraction/normalise.py` nor the extraction schema carries a
-PO number or a line-level product code, and none of the 20 fixtures has
-either. Without them, every invoice would raise `NO_PO_REFERENCE` and no
-line could match by SKU. The demo would never show a clean match.
+Built on 2026-09-29 as a spec 01 follow-up. Before it, extraction carried
+neither a PO number nor a line product code. Every invoice would have
+raised `NO_PO_REFERENCE`, and no line could match by SKU.
 
-The fix is a spec 01 follow-up, agreed on 2026-09-26:
+- `src/extraction/normalise.py` maps the Invoice Parser entities
+  `purchase_order` and `line_item/product_code`. The repository owner
+  confirmed both names against the processor's field list.
+- `po_number` is an optional header field, stored in
+  `extraction_results.po_number` (migration `0003`). It counts as a header
+  field for the confidence thresholds, because a misread PO number selects
+  the wrong purchase order.
+- `sku` is optional on a line. It is absent unless the parser reports a
+  product code. Spec 01 lists four required line properties, and absent
+  means "never reported", which the schema keeps distinct from null.
+- `scripts/generate_fixtures.py` prints and extracts both:
+  - Goods lines carry a supplier part number. Service lines carry none,
+    which exercises the lower rungs of the line ladder.
+  - The utility bill quotes no PO, which demonstrates `NO_PO_REFERENCE`.
+  - The poor-quality scan prints a PO number the extractor cannot read.
 
-- Map the Invoice Parser `purchase_order` and `line_item/product_code`
-  entities. **These names come from memory and must be checked against the
-  processor's published field list before use.**
-- Add `po_number` and `sku` to `invoice_extraction.schema.json`.
-- Extend `scripts/generate_fixtures.py` rather than editing JSON by hand.
-  Adding a PO number to a source PDF changes its content hash. The fixture
-  file names change with it, and so do any tests or Postman examples that
-  reference them.
+  Changing a source document changes its content hash, so the generator
+  now clears the cached responses before writing them.
 
 ### 5.2 Flow and trigger
 
@@ -655,7 +662,7 @@ Accept this and record it in the ADR.
 ## 7. Open questions
 
 Settled on 2026-09-29: tax reconciles against the rate in effect on the
-invoice date.
+invoice date, and the Invoice Parser field names in 5.1 are confirmed.
 
 1. **Tax ID pattern.** Spec 02 section 8 requires the GST registration
    format to be checked against current IRAS guidance by a person, not
@@ -667,10 +674,7 @@ invoice date.
    evidently still there.
 3. **Values still to set:** the `currency_overrides` entries, and the
    `line_matching` threshold and margin.
-4. **Invoice Parser field names.** `purchase_order` and
-   `line_item/product_code` (5.1) are still unverified. This environment
-   cannot reach Google's documentation, so a person has to confirm them.
-5. **Remaining challenges:** 6.2 to 6.7, 6.10 and 6.11.
+4. **Remaining challenges:** 6.2 to 6.7, 6.10 and 6.11.
 
 ---
 
