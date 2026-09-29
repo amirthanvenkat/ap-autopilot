@@ -10,7 +10,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 4 0 obj
-<< /Length 21593 >>
+<< /Length 21630 >>
 stream
 BT
 /F1 11 Tf
@@ -30,13 +30,15 @@ T*
 T*
 (Due date: 2026-08-25) Tj
 T*
+(Purchase order: PO-2026-0104) Tj
+T*
 () Tj
 T*
-(Description                                      Qty    Unit price        Amount) Tj
+(Item code     Description                        Qty    Unit price        Amount) Tj
 T*
 (--------------------------------------------------------------------------------) Tj
 T*
-(Managed endpoint support, monthly                 35         28.00        980.00) Tj
+(              Managed endpoint support, mont      35         28.00        980.00) Tj
 T*
 () Tj
 T*
@@ -669,9 +671,9 @@ xref
 0000000064 00000 n 
 0000000121 00000 n 
 0000000191 00000 n 
-0000021837 00000 n 
+0000021874 00000 n 
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-21963
+22000
 %%EOF

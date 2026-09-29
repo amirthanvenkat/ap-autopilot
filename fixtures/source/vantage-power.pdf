@@ -10,7 +10,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 4 0 obj
-<< /Length 21082 >>
+<< /Length 21117 >>
 stream
 BT
 /F1 11 Tf
@@ -30,15 +30,17 @@ T*
 T*
 (Due date: 2026-08-26) Tj
 T*
+(Purchase order: not quoted) Tj
+T*
 () Tj
 T*
-(Description                                      Qty    Unit price        Amount) Tj
+(Item code     Description                        Qty    Unit price        Amount) Tj
 T*
 (--------------------------------------------------------------------------------) Tj
 T*
-(Electricity supply, July                       18320         0.126       2308.32) Tj
+(              Electricity supply, July         18320         0.126       2308.32) Tj
 T*
-(Meter service charge                               1          2.08          2.08) Tj
+(              Meter service charge                 1          2.08          2.08) Tj
 T*
 () Tj
 T*
@@ -671,9 +673,9 @@ xref
 0000000064 00000 n 
 0000000121 00000 n 
 0000000191 00000 n 
-0000021326 00000 n 
+0000021361 00000 n 
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-21452
+21487
 %%EOF

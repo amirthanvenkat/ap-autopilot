@@ -164,6 +164,8 @@ extraction_results = Table(
     Column("net_amount", Numeric(18, 4)),
     Column("tax_amount", Numeric(18, 4)),
     Column("total_amount", Numeric(18, 4)),
+    # Migration 0003. Spec 02 resolves the purchase order from it.
+    Column("po_number", Text),
     # Accepted change 6: the trimmed entity level payload lives here and the
     # untrimmed Document AI response stays in Cloud Storage.
     Column("raw_payload", JSONB, nullable=False),

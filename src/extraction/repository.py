@@ -40,14 +40,14 @@ _INSERT_RESULT_SQL = text(
     """
     insert into extraction_results (
         extraction_id, job_id, document_id,
-        supplier_name, supplier_tax_id, invoice_number,
+        supplier_name, supplier_tax_id, invoice_number, po_number,
         invoice_date, due_date, currency,
         net_amount, tax_amount, total_amount,
         raw_payload, raw_gcs_uri
     )
     values (
         :extraction_id, :job_id, :document_id,
-        :supplier_name, :supplier_tax_id, :invoice_number,
+        :supplier_name, :supplier_tax_id, :invoice_number, :po_number,
         :invoice_date, :due_date, :currency,
         :net_amount, :tax_amount, :total_amount,
         cast(:raw_payload as jsonb), :raw_gcs_uri
@@ -136,7 +136,7 @@ async def insert_extraction(
 _SELECT_EXTRACTION_SQL = text(
     """
     select extraction_id, job_id, document_id, supplier_name, supplier_tax_id,
-           invoice_number, invoice_date, due_date, currency,
+           invoice_number, po_number, invoice_date, due_date, currency,
            net_amount, tax_amount, total_amount, raw_gcs_uri, created_at
       from extraction_results
      where extraction_id = :extraction_id
@@ -177,6 +177,7 @@ async def get_extraction(
         "supplier_name": row.supplier_name,
         "supplier_tax_id": row.supplier_tax_id,
         "invoice_number": row.invoice_number,
+        "po_number": row.po_number,
         "invoice_date": row.invoice_date,
         "due_date": row.due_date,
         "currency": row.currency,

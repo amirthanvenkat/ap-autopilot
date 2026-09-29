@@ -1,8 +1,8 @@
 {
   "entities": [
     {
-      "confidence": 0.87,
-      "mentionText": "Westmoor Timber Merchants",
+      "confidence": 0.98,
+      "mentionText": "Acme Office Supplies Pte Ltd",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -13,8 +13,8 @@
       "type": "supplier_name"
     },
     {
-      "confidence": 0.86,
-      "mentionText": "198922334G",
+      "confidence": 0.97,
+      "mentionText": "200812345K",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -25,8 +25,8 @@
       "type": "supplier_tax_id"
     },
     {
-      "confidence": 0.88,
-      "mentionText": "WTM-0450",
+      "confidence": 0.99,
+      "mentionText": "INV-1001",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -37,12 +37,24 @@
       "type": "invoice_id"
     },
     {
-      "confidence": 0.86,
-      "mentionText": "2026-07-24",
+      "confidence": 0.97,
+      "mentionText": "PO-2026-0101",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "purchase_order"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-08-03",
       "normalizedValue": {
         "dateValue": {
-          "day": 24,
-          "month": 7,
+          "day": 3,
+          "month": 8,
           "year": 2026
         }
       },
@@ -56,12 +68,12 @@
       "type": "invoice_date"
     },
     {
-      "confidence": 0.86,
-      "mentionText": "2026-08-23",
+      "confidence": 0.97,
+      "mentionText": "2026-09-02",
       "normalizedValue": {
         "dateValue": {
-          "day": 23,
-          "month": 8,
+          "day": 2,
+          "month": 9,
           "year": 2026
         }
       },
@@ -75,13 +87,13 @@
       "type": "due_date"
     },
     {
-      "confidence": 0.86,
-      "mentionText": "3180.00",
+      "confidence": 0.97,
+      "mentionText": "1200.00",
       "normalizedValue": {
         "moneyValue": {
           "currencyCode": "SGD",
           "nanos": 0,
-          "units": "3180"
+          "units": "1200"
         }
       },
       "pageAnchor": {
@@ -94,13 +106,13 @@
       "type": "net_amount"
     },
     {
-      "confidence": 0.86,
-      "mentionText": "286.20",
+      "confidence": 0.97,
+      "mentionText": "108.00",
       "normalizedValue": {
         "moneyValue": {
           "currencyCode": "SGD",
-          "nanos": 200000000,
-          "units": "286"
+          "nanos": 0,
+          "units": "108"
         }
       },
       "pageAnchor": {
@@ -113,13 +125,13 @@
       "type": "total_tax_amount"
     },
     {
-      "confidence": 0.88,
-      "mentionText": "3466.20",
+      "confidence": 0.99,
+      "mentionText": "1308.00",
       "normalizedValue": {
         "moneyValue": {
           "currencyCode": "SGD",
-          "nanos": 200000000,
-          "units": "3466"
+          "nanos": 0,
+          "units": "1308"
         }
       },
       "pageAnchor": {
@@ -132,7 +144,7 @@
       "type": "total_amount"
     },
     {
-      "confidence": 0.87,
+      "confidence": 0.98,
       "mentionText": "SGD",
       "pageAnchor": {
         "pageRefs": [
@@ -144,8 +156,8 @@
       "type": "currency"
     },
     {
-      "confidence": 0.82,
-      "mentionText": "Plywood sheets, 18mm",
+      "confidence": 0.95,
+      "mentionText": "A4 copier paper, box of 5 reams",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -155,8 +167,8 @@
       },
       "properties": [
         {
-          "confidence": 0.82,
-          "mentionText": "Plywood sheets, 18mm",
+          "confidence": 0.95,
+          "mentionText": "A4 copier paper, box of 5 reams",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -167,8 +179,8 @@
           "type": "line_item/description"
         },
         {
-          "confidence": 0.82,
-          "mentionText": "60",
+          "confidence": 0.95,
+          "mentionText": "12",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -179,13 +191,25 @@
           "type": "line_item/quantity"
         },
         {
-          "confidence": 0.82,
-          "mentionText": "34.00",
+          "confidence": 0.95,
+          "mentionText": "AOS-PAP-A4-5R",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/product_code"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "42.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
               "nanos": 0,
-              "units": "34"
+              "units": "42"
             }
           },
           "pageAnchor": {
@@ -198,13 +222,13 @@
           "type": "line_item/unit_price"
         },
         {
-          "confidence": 0.82,
-          "mentionText": "2040.00",
+          "confidence": 0.95,
+          "mentionText": "504.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
               "nanos": 0,
-              "units": "2040"
+              "units": "504"
             }
           },
           "pageAnchor": {
@@ -220,8 +244,8 @@
       "type": "line_item"
     },
     {
-      "confidence": 0.8,
-      "mentionText": "Timber battens, 2.4m",
+      "confidence": 0.95,
+      "mentionText": "Whiteboard markers, pack of 10",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -231,8 +255,8 @@
       },
       "properties": [
         {
-          "confidence": 0.8,
-          "mentionText": "Timber battens, 2.4m",
+          "confidence": 0.95,
+          "mentionText": "Whiteboard markers, pack of 10",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -243,8 +267,8 @@
           "type": "line_item/description"
         },
         {
-          "confidence": 0.8,
-          "mentionText": "120",
+          "confidence": 0.95,
+          "mentionText": "24",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -255,13 +279,25 @@
           "type": "line_item/quantity"
         },
         {
-          "confidence": 0.8,
-          "mentionText": "9.50",
+          "confidence": 0.95,
+          "mentionText": "AOS-MRK-WB10",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/product_code"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "12.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
-              "nanos": 500000000,
-              "units": "9"
+              "nanos": 0,
+              "units": "12"
             }
           },
           "pageAnchor": {
@@ -274,13 +310,101 @@
           "type": "line_item/unit_price"
         },
         {
-          "confidence": 0.8,
-          "mentionText": "1140.00",
+          "confidence": 0.95,
+          "mentionText": "288.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
               "nanos": 0,
-              "units": "1140"
+              "units": "288"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Desk organiser, mesh",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Desk organiser, mesh",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "16",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "AOS-ORG-MESH",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/product_code"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "25.50",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 500000000,
+              "units": "25"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "408.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "408"
             }
           },
           "pageAnchor": {
@@ -307,5 +431,5 @@
       "pageNumber": 1
     }
   ],
-  "text": "Westmoor Timber Merchants\nWTM-0450\n3466.20\n"
+  "text": "Acme Office Supplies Pte Ltd\nINV-1001\n1308.00\n"
 }

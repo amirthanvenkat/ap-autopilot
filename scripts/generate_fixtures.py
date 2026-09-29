@@ -194,6 +194,9 @@ class Line:
     unit_price: str
     line_total: str
     confidence: float = 0.95
+    # The supplier's part number. Goods lines carry one; service lines do
+    # not, which is what exercises the lower rungs of the spec 02 ladder.
+    sku: str = ""
 
 
 @dataclass(frozen=True)
@@ -219,6 +222,9 @@ class Invoice:
     # which is deliberately different from the key being absent.
     missing: tuple[str, ...] = field(default_factory=tuple)
     language: str = "en"
+    # Empty when the invoice quotes no PO, which is how non-PO spend such as
+    # a utility bill arrives.
+    po_number: str = ""
 
 
 INVOICES: list[Invoice] = [
@@ -234,10 +240,23 @@ INVOICES: list[Invoice] = [
         "108.00",
         "1308.00",
         [
-            Line("A4 copier paper, box of 5 reams", "12", "42.00", "504.00"),
-            Line("Whiteboard markers, pack of 10", "24", "12.00", "288.00"),
-            Line("Desk organiser, mesh", "16", "25.50", "408.00"),
+            Line(
+                "A4 copier paper, box of 5 reams",
+                "12",
+                "42.00",
+                "504.00",
+                sku="AOS-PAP-A4-5R",
+            ),
+            Line(
+                "Whiteboard markers, pack of 10",
+                "24",
+                "12.00",
+                "288.00",
+                sku="AOS-MRK-WB10",
+            ),
+            Line("Desk organiser, mesh", "16", "25.50", "408.00", sku="AOS-ORG-MESH"),
         ],
+        po_number="PO-2026-0101",
     ),
     Invoice(
         "bluewave-logistics",
@@ -255,6 +274,7 @@ INVOICES: list[Invoice] = [
             Line("Customs clearance handling", "1", "450.00", "450.00"),
             Line("Warehouse storage, 10 days", "10", "80.00", "800.00"),
         ],
+        po_number="PO-2026-0102",
     ),
     Invoice(
         "northgate-consulting",
@@ -271,6 +291,7 @@ INVOICES: list[Invoice] = [
             Line("Process review, senior consultant", "40", "150.00", "6000.00"),
             Line("Workshop facilitation", "2", "1000.00", "2000.00"),
         ],
+        po_number="PO-2026-0103",
     ),
     Invoice(
         "harbourpoint-it",
@@ -286,6 +307,7 @@ INVOICES: list[Invoice] = [
         [
             Line("Managed endpoint support, monthly", "35", "28.00", "980.00"),
         ],
+        po_number="PO-2026-0104",
     ),
     Invoice(
         "meridian-facilities",
@@ -303,6 +325,7 @@ INVOICES: list[Invoice] = [
             Line("Pantry restocking", "1", "900.00", "900.00"),
             Line("Pest control, quarterly", "1", "1500.00", "1500.00"),
         ],
+        po_number="PO-2026-0105",
     ),
     Invoice(
         "cedarline-print",
@@ -316,9 +339,12 @@ INVOICES: list[Invoice] = [
         "66.83",
         "809.33",
         [
-            Line("Business cards, 500 units", "5", "45.00", "225.00"),
-            Line("Brochure printing, A5 gloss", "750", "0.69", "517.50"),
+            Line("Business cards, 500 units", "5", "45.00", "225.00", sku="CPW-BC-500"),
+            Line(
+                "Brochure printing, A5 gloss", "750", "0.69", "517.50", sku="CPW-BR-A5G"
+            ),
         ],
+        po_number="PO-2026-0106",
     ),
     Invoice(
         "vantage-power",
@@ -351,6 +377,7 @@ INVOICES: list[Invoice] = [
             Line("Staff lunch catering, 75 pax", "75", "22.00", "1650.00"),
             Line("Beverage station", "1", "225.00", "225.00"),
         ],
+        po_number="PO-2026-0107",
     ),
     Invoice(
         "stellar-software",
@@ -366,6 +393,7 @@ INVOICES: list[Invoice] = [
         [
             Line("Platform licence, annual, 40 seats", "40", "300.00", "12000.00"),
         ],
+        po_number="PO-2026-0108",
     ),
     Invoice(
         "ironbridge-hardware",
@@ -379,9 +407,10 @@ INVOICES: list[Invoice] = [
         "57.08",
         "691.28",
         [
-            Line("Safety helmets, white", "18", "18.90", "340.20"),
-            Line("Hi-vis vests, large", "21", "14.00", "294.00"),
+            Line("Safety helmets, white", "18", "18.90", "340.20", sku="IBH-HLM-WHT"),
+            Line("Hi-vis vests, large", "21", "14.00", "294.00", sku="IBH-VST-HV-L"),
         ],
+        po_number="PO-2026-0109",
     ),
     Invoice(
         "lumen-marketing",
@@ -398,6 +427,7 @@ INVOICES: list[Invoice] = [
             Line("Campaign design retainer", "1", "3200.00", "3200.00"),
             Line("Copywriting, per article", "6", "200.00", "1200.00"),
         ],
+        po_number="PO-2026-0110",
     ),
     Invoice(
         "portside-security",
@@ -414,6 +444,7 @@ INVOICES: list[Invoice] = [
             Line("Security officer, day shift", "160", "26.00", "4160.00"),
             Line("Security officer, night shift", "104", "30.00", "3120.00"),
         ],
+        po_number="PO-2026-0111",
     ),
     # Multi page.
     Invoice(
@@ -436,6 +467,7 @@ INVOICES: list[Invoice] = [
             Line("Preventive maintenance, quarterly", "1", "3040.00", "3040.00"),
             Line("Insurance surcharge", "1", "3000.00", "3000.00"),
         ],
+        po_number="PO-2026-0112",
         pages=3,
         note="Multi page invoice: line items continue across three pages.",
     ),
@@ -455,6 +487,7 @@ INVOICES: list[Invoice] = [
             Line("Inland haulage", "3", "600.00", "1800.00"),
             Line("Documentation fee", "3", "400.00", "1200.00"),
         ],
+        po_number="PO-2026-0113",
         pages=2,
         note="Multi page invoice with a continuation sheet.",
     ),
@@ -471,10 +504,25 @@ INVOICES: list[Invoice] = [
         "490.00",
         "2940.00",
         [
-            Line("Papier A4, carton de 5 rames", "10", "38.00", "380.00"),
-            Line("Cartouches d'encre, noir", "14", "72.50", "1015.00"),
-            Line("Chaises de bureau ergonomiques", "5", "211.00", "1055.00"),
+            Line(
+                "Papier A4, carton de 5 rames",
+                "10",
+                "38.00",
+                "380.00",
+                sku="PF-PAP-A4-5",
+            ),
+            Line(
+                "Cartouches d'encre, noir", "14", "72.50", "1015.00", sku="PF-ENC-NOIR"
+            ),
+            Line(
+                "Chaises de bureau ergonomiques",
+                "5",
+                "211.00",
+                "1055.00",
+                sku="PF-CHS-ERGO",
+            ),
         ],
+        po_number="PO-2026-0114",
         language="fr",
         note="Non-English invoice, French, EUR.",
     ),
@@ -491,9 +539,24 @@ INVOICES: list[Invoice] = [
         "286.20",
         "3466.20",
         [
-            Line("Plywood sheets, 18mm", "60", "34.00", "2040.00", confidence=0.82),
-            Line("Timber battens, 2.4m", "120", "9.50", "1140.00", confidence=0.80),
+            Line(
+                "Plywood sheets, 18mm",
+                "60",
+                "34.00",
+                "2040.00",
+                confidence=0.82,
+                sku="WT-PLY-18",
+            ),
+            Line(
+                "Timber battens, 2.4m",
+                "120",
+                "9.50",
+                "1140.00",
+                confidence=0.80,
+                sku="WT-BAT-24",
+            ),
         ],
+        po_number="PO-2026-0115",
         confidence=0.86,
         note="Scanned document: confidences reflect OCR rather than native text.",
     ),
@@ -511,10 +574,17 @@ INVOICES: list[Invoice] = [
         "1890.00",
         [
             Line("Hull inspection", "1", "700.00", "700.00", confidence=0.44),
-            Line("Anode replacement", "4", "", "", confidence=0.31),
+            Line("Anode replacement", "4", "", "", confidence=0.31, sku="DMR-AN-ZN"),
         ],
+        po_number="PO-2026-0116",
         confidence=0.52,
-        missing=("supplier_tax_id", "due_date", "net_amount", "tax_amount"),
+        missing=(
+            "supplier_tax_id",
+            "due_date",
+            "net_amount",
+            "tax_amount",
+            "po_number",
+        ),
         note="Deliberately poor quality scan: low confidence, unreadable fields.",
     ),
     # Image formats.
@@ -532,6 +602,7 @@ INVOICES: list[Invoice] = [
         [
             Line("Same day delivery, island wide", "22", "19.00", "418.00"),
         ],
+        po_number="PO-2026-0117",
         media_type="image/png",
         confidence=0.88,
         note="Photographed invoice supplied as a PNG.",
@@ -550,6 +621,7 @@ INVOICES: list[Invoice] = [
         [
             Line("Water quality analysis, per sample", "35", "150.00", "5250.00"),
         ],
+        po_number="PO-2026-0118",
         media_type="image/tiff",
         confidence=0.90,
         note="Faxed invoice supplied as a TIFF.",
@@ -568,6 +640,8 @@ _LABELS = {
         "date": "Invoice date",
         "due": "Due date",
         "tax_id": "GST registration",
+        "po": "Purchase order",
+        "sku": "Item code",
         "desc": "Description",
         "qty": "Qty",
         "unit": "Unit price",
@@ -583,6 +657,8 @@ _LABELS = {
         "date": "Date de facture",
         "due": "Date d'echeance",
         "tax_id": "Numero de TVA",
+        "po": "Bon de commande",
+        "sku": "Reference",
         "desc": "Designation",
         "qty": "Qte",
         "unit": "Prix unitaire",
@@ -610,15 +686,16 @@ def render_pages(invoice: Invoice) -> list[list[str]]:
             f"{labels['number']}: {invoice.number}",
             f"{labels['date']}: {invoice.invoice_date}",
             f"{labels['due']}: {invoice.due_date or 'not shown'}",
+            f"{labels['po']}: {invoice.po_number or 'not quoted'}",
             "",
-            f"{labels['desc']:<44}{labels['qty']:>8}"
+            f"{labels['sku']:<14}{labels['desc']:<30}{labels['qty']:>8}"
             f"{labels['unit']:>14}{labels['total']:>14}",
             "-" * 80,
         ]
         chunk = invoice.lines[page_index * per_page : (page_index + 1) * per_page]
         for line in chunk:
             lines.append(
-                f"{line.description[:44]:<44}{line.quantity:>8}"
+                f"{line.sku[:14]:<14}{line.description[:30]:<30}{line.quantity:>8}"
                 f"{line.unit_price or '?':>14}{line.line_total or '?':>14}"
             )
         lines.append("")
@@ -723,6 +800,7 @@ def build_response(invoice: Invoice) -> dict[str, object]:
     add_scalar("supplier_name", invoice.supplier, "supplier_name", bump=0.01)
     add_scalar("supplier_tax_id", invoice.tax_id, "supplier_tax_id")
     add_scalar("invoice_id", invoice.number, "invoice_number", bump=0.02)
+    add_scalar("purchase_order", invoice.po_number, "po_number")
     add_scalar(
         "invoice_date",
         invoice.invoice_date,
@@ -785,6 +863,10 @@ def build_response(invoice: Invoice) -> dict[str, object]:
             ),
             entity("line_item/quantity", line.quantity, line.confidence, page=page),
         ]
+        if line.sku:
+            properties.append(
+                entity("line_item/product_code", line.sku, line.confidence, page=page)
+            )
         if line.unit_price:
             properties.append(
                 entity(
@@ -923,6 +1005,11 @@ def pubsub_envelope(
 def main() -> None:
     for directory in (SOURCE_DIR, EXTRACTION_DIR, PUBSUB_DIR):
         directory.mkdir(parents=True, exist_ok=True)
+    # Responses are keyed by content hash, so editing an invoice here writes
+    # a new file rather than replacing the old one. Clear them first so no
+    # response survives for a document that no longer exists.
+    for stale in EXTRACTION_DIR.glob("*.json"):
+        stale.unlink()
     for name in ("history", "messages", "attachments"):
         (GMAIL_DIR / name).mkdir(parents=True, exist_ok=True)
 

@@ -10,7 +10,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 4 0 obj
-<< /Length 23272 >>
+<< /Length 23309 >>
 stream
 BT
 /F1 11 Tf
@@ -30,17 +30,19 @@ T*
 T*
 (Due date: 2026-09-02) Tj
 T*
+(Purchase order: PO-2026-0101) Tj
+T*
 () Tj
 T*
-(Description                                      Qty    Unit price        Amount) Tj
+(Item code     Description                        Qty    Unit price        Amount) Tj
 T*
 (--------------------------------------------------------------------------------) Tj
 T*
-(A4 copier paper, box of 5 reams                   12         42.00        504.00) Tj
+(AOS-PAP-A4-5R A4 copier paper, box of 5 ream      12         42.00        504.00) Tj
 T*
-(Whiteboard markers, pack of 10                    24         12.00        288.00) Tj
+(AOS-MRK-WB10  Whiteboard markers, pack of 10      24         12.00        288.00) Tj
 T*
-(Desk organiser, mesh                              16         25.50        408.00) Tj
+(AOS-ORG-MESH  Desk organiser, mesh                16         25.50        408.00) Tj
 T*
 () Tj
 T*
@@ -673,9 +675,9 @@ xref
 0000000064 00000 n 
 0000000121 00000 n 
 0000000191 00000 n 
-0000023516 00000 n 
+0000023553 00000 n 
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-23642
+23679
 %%EOF

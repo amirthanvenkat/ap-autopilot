@@ -29,7 +29,7 @@
         ],
         "body": {
           "attachmentId": "att-acme-office-supplies",
-          "size": 23827
+          "size": 23864
         }
       },
       {
@@ -44,7 +44,7 @@
         ],
         "body": {
           "attachmentId": "att-bluewave-logistics",
-          "size": 23229
+          "size": 23266
         }
       },
       {
@@ -59,7 +59,7 @@
         ],
         "body": {
           "attachmentId": "att-northgate-consulting",
-          "size": 23735
+          "size": 23772
         }
       }
     ]

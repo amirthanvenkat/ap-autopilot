@@ -31,7 +31,7 @@ _CONFIDENCE = "confidence"
 _PAGE = "page_number"
 
 # Top level envelopes that map onto extraction_results columns.
-_TEXT_COLUMNS = ("supplier_name", "supplier_tax_id", "invoice_number")
+_TEXT_COLUMNS = ("supplier_name", "supplier_tax_id", "invoice_number", "po_number")
 _DATE_COLUMNS = ("invoice_date", "due_date")
 _MONEY_COLUMNS = ("net_amount", "tax_amount", "total_amount")
 

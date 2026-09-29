@@ -9,6 +9,7 @@ from typing import Any
 
 from src.extraction.docai import merge_shards
 from src.extraction.normalise import normalise_document, trim_raw_payload
+from src.extraction.validation import validate_extraction
 
 FIXTURES = Path(__file__).resolve().parents[2] / "fixtures"
 
@@ -202,6 +203,79 @@ def test_poor_quality_scan_reports_nulls_not_guesses() -> None:
     payload = normalise_document(raw)
     assert "supplier_tax_id" not in payload
     assert "due_date" not in payload
+    # Printed on the document but unreadable, so never reported.
+    assert "po_number" not in payload
     assert payload["total_amount"]["value"] == "1890.0000"
     assert payload["line_items"][1]["unit_price"]["value"] is None
     assert float(payload["total_amount"]["confidence"]) < 0.6
+
+
+def _fixture_payload(slug: str) -> dict[str, Any]:
+    manifest = json.loads((FIXTURES / "manifest.json").read_text("utf-8"))
+    record = next(item for item in manifest if item["slug"] == slug)
+    raw = json.loads(
+        (FIXTURES / "extractions" / f"{record['content_hash']}.json").read_text("utf-8")
+    )
+    return normalise_document(raw)
+
+
+def test_purchase_order_maps_to_po_number() -> None:
+    document = {"entities": [_entity("purchase_order", " PO-2026-0101 ", 0.93)]}
+    payload = normalise_document(document)
+    assert payload["po_number"] == {
+        "value": "PO-2026-0101",
+        "confidence": 0.93,
+        "page_number": 1,
+    }
+
+
+def test_an_unreported_po_number_is_absent_not_null() -> None:
+    """Absent means never reported. Spec 02 treats that differently."""
+    payload = normalise_document({"entities": [_entity("invoice_id", "X-1", 0.9)]})
+    assert "po_number" not in payload
+
+
+def test_product_code_maps_to_line_sku() -> None:
+    line = _entity(
+        "line_item",
+        "Safety helmets",
+        0.95,
+        properties=[
+            _entity("line_item/description", "Safety helmets", 0.95),
+            _entity("line_item/product_code", "IBH-HLM-WHT", 0.91),
+        ],
+    )
+    payload = normalise_document({"entities": [line]})
+    assert payload["line_items"][0]["sku"]["value"] == "IBH-HLM-WHT"
+    assert payload["line_items"][0]["sku"]["confidence"] == 0.91
+
+
+def test_a_line_without_a_product_code_has_no_sku_key() -> None:
+    line = _entity(
+        "line_item",
+        "Consulting",
+        0.95,
+        properties=[_entity("line_item/description", "Consulting", 0.95)],
+    )
+    payload = normalise_document({"entities": [line]})
+    assert "sku" not in payload["line_items"][0]
+
+
+def test_goods_fixture_carries_po_number_and_skus() -> None:
+    payload = validate_extraction(_fixture_payload("ironbridge-hardware"))
+    assert payload["po_number"]["value"] == "PO-2026-0109"
+    assert [line["sku"]["value"] for line in payload["line_items"]] == [
+        "IBH-HLM-WHT",
+        "IBH-VST-HV-L",
+    ]
+
+
+def test_service_fixture_has_a_po_number_but_no_skus() -> None:
+    payload = validate_extraction(_fixture_payload("northgate-consulting"))
+    assert payload["po_number"]["value"]
+    assert all("sku" not in line for line in payload["line_items"])
+
+
+def test_non_po_fixture_reports_no_po_number() -> None:
+    """The utility bill is the NO_PO_REFERENCE demonstration."""
+    assert "po_number" not in _fixture_payload("vantage-power")

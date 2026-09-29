@@ -10,7 +10,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 4 0 obj
-<< /Length 22280 >>
+<< /Length 22317 >>
 stream
 BT
 /F1 11 Tf
@@ -30,15 +30,17 @@ T*
 T*
 (Due date: 2026-09-18) Tj
 T*
+(Purchase order: PO-2026-0107) Tj
+T*
 () Tj
 T*
-(Description                                      Qty    Unit price        Amount) Tj
+(Item code     Description                        Qty    Unit price        Amount) Tj
 T*
 (--------------------------------------------------------------------------------) Tj
 T*
-(Staff lunch catering, 75 pax                      75         22.00       1650.00) Tj
+(              Staff lunch catering, 75 pax        75         22.00       1650.00) Tj
 T*
-(Beverage station                                   1        225.00        225.00) Tj
+(              Beverage station                     1        225.00        225.00) Tj
 T*
 () Tj
 T*
@@ -671,9 +673,9 @@ xref
 0000000064 00000 n 
 0000000121 00000 n 
 0000000191 00000 n 
-0000022524 00000 n 
+0000022561 00000 n 
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-22650
+22687
 %%EOF

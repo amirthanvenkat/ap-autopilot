@@ -2,7 +2,7 @@
   "entities": [
     {
       "confidence": 0.98,
-      "mentionText": "Ironbridge Hardware Supply",
+      "mentionText": "Bluewave Logistics Pte Ltd",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -14,7 +14,7 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "200455667D",
+      "mentionText": "199905678M",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -26,7 +26,7 @@
     },
     {
       "confidence": 0.99,
-      "mentionText": "IBH-0771",
+      "mentionText": "BW-2026-0442",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -38,10 +38,22 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "2026-08-08",
+      "mentionText": "PO-2026-0102",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "purchase_order"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-08-05",
       "normalizedValue": {
         "dateValue": {
-          "day": 8,
+          "day": 5,
           "month": 8,
           "year": 2026
         }
@@ -57,10 +69,10 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "2026-09-07",
+      "mentionText": "2026-09-04",
       "normalizedValue": {
         "dateValue": {
-          "day": 7,
+          "day": 4,
           "month": 9,
           "year": 2026
         }
@@ -76,12 +88,12 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "634.20",
+      "mentionText": "3450.00",
       "normalizedValue": {
         "moneyValue": {
           "currencyCode": "SGD",
-          "nanos": 200000000,
-          "units": "634"
+          "nanos": 0,
+          "units": "3450"
         }
       },
       "pageAnchor": {
@@ -95,12 +107,12 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "57.08",
+      "mentionText": "310.50",
       "normalizedValue": {
         "moneyValue": {
           "currencyCode": "SGD",
-          "nanos": 80000000,
-          "units": "57"
+          "nanos": 500000000,
+          "units": "310"
         }
       },
       "pageAnchor": {
@@ -114,12 +126,12 @@
     },
     {
       "confidence": 0.99,
-      "mentionText": "691.28",
+      "mentionText": "3760.50",
       "normalizedValue": {
         "moneyValue": {
           "currencyCode": "SGD",
-          "nanos": 280000000,
-          "units": "691"
+          "nanos": 500000000,
+          "units": "3760"
         }
       },
       "pageAnchor": {
@@ -145,7 +157,7 @@
     },
     {
       "confidence": 0.95,
-      "mentionText": "Safety helmets, white",
+      "mentionText": "Freight forwarding, Singapore to Penang",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -156,7 +168,7 @@
       "properties": [
         {
           "confidence": 0.95,
-          "mentionText": "Safety helmets, white",
+          "mentionText": "Freight forwarding, Singapore to Penang",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -168,7 +180,7 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "18",
+          "mentionText": "1",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -180,12 +192,12 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "18.90",
+          "mentionText": "2200.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
-              "nanos": 900000000,
-              "units": "18"
+              "nanos": 0,
+              "units": "2200"
             }
           },
           "pageAnchor": {
@@ -199,12 +211,12 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "340.20",
+          "mentionText": "2200.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
-              "nanos": 200000000,
-              "units": "340"
+              "nanos": 0,
+              "units": "2200"
             }
           },
           "pageAnchor": {
@@ -221,7 +233,7 @@
     },
     {
       "confidence": 0.95,
-      "mentionText": "Hi-vis vests, large",
+      "mentionText": "Customs clearance handling",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -232,7 +244,7 @@
       "properties": [
         {
           "confidence": 0.95,
-          "mentionText": "Hi-vis vests, large",
+          "mentionText": "Customs clearance handling",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -244,7 +256,7 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "21",
+          "mentionText": "1",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -256,12 +268,12 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "14.00",
+          "mentionText": "450.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
               "nanos": 0,
-              "units": "14"
+              "units": "450"
             }
           },
           "pageAnchor": {
@@ -275,12 +287,88 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "294.00",
+          "mentionText": "450.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
               "nanos": 0,
-              "units": "294"
+              "units": "450"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Warehouse storage, 10 days",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Warehouse storage, 10 days",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "10",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "80.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "80"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "800.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "800"
             }
           },
           "pageAnchor": {
@@ -307,5 +395,5 @@
       "pageNumber": 1
     }
   ],
-  "text": "Ironbridge Hardware Supply\nIBH-0771\n691.28\n"
+  "text": "Bluewave Logistics Pte Ltd\nBW-2026-0442\n3760.50\n"
 }

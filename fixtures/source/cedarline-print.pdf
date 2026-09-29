@@ -10,7 +10,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 4 0 obj
-<< /Length 21676 >>
+<< /Length 21713 >>
 stream
 BT
 /F1 11 Tf
@@ -30,15 +30,17 @@ T*
 T*
 (Due date: 2026-09-13) Tj
 T*
+(Purchase order: PO-2026-0106) Tj
+T*
 () Tj
 T*
-(Description                                      Qty    Unit price        Amount) Tj
+(Item code     Description                        Qty    Unit price        Amount) Tj
 T*
 (--------------------------------------------------------------------------------) Tj
 T*
-(Business cards, 500 units                          5         45.00        225.00) Tj
+(CPW-BC-500    Business cards, 500 units            5         45.00        225.00) Tj
 T*
-(Brochure printing, A5 gloss                      750          0.69        517.50) Tj
+(CPW-BR-A5G    Brochure printing, A5 gloss        750          0.69        517.50) Tj
 T*
 () Tj
 T*
@@ -671,9 +673,9 @@ xref
 0000000064 00000 n 
 0000000121 00000 n 
 0000000191 00000 n 
-0000021920 00000 n 
+0000021957 00000 n 
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-22046
+22083
 %%EOF

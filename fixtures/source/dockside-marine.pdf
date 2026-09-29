@@ -10,7 +10,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 4 0 obj
-<< /Length 21765 >>
+<< /Length 21802 >>
 stream
 BT
 /F1 11 Tf
@@ -30,15 +30,17 @@ T*
 T*
 (Due date: not shown) Tj
 T*
+(Purchase order: PO-2026-0116) Tj
+T*
 () Tj
 T*
-(Description                                      Qty    Unit price        Amount) Tj
+(Item code     Description                        Qty    Unit price        Amount) Tj
 T*
 (--------------------------------------------------------------------------------) Tj
 T*
-(Hull inspection                                    1        700.00        700.00) Tj
+(              Hull inspection                      1        700.00        700.00) Tj
 T*
-(Anode replacement                                  4             ?             ?) Tj
+(DMR-AN-ZN     Anode replacement                    4             ?             ?) Tj
 T*
 () Tj
 T*
@@ -673,9 +675,9 @@ xref
 0000000064 00000 n 
 0000000121 00000 n 
 0000000191 00000 n 
-0000022009 00000 n 
+0000022046 00000 n 
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-22135
+22172
 %%EOF

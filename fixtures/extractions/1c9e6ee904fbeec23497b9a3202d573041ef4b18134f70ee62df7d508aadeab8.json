@@ -2,7 +2,7 @@
   "entities": [
     {
       "confidence": 0.98,
-      "mentionText": "Bluewave Logistics Pte Ltd",
+      "mentionText": "Lumen Marketing Collective",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -14,7 +14,7 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "199905678M",
+      "mentionText": "201877665B",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -26,7 +26,7 @@
     },
     {
       "confidence": 0.99,
-      "mentionText": "BW-2026-0442",
+      "mentionText": "LMC-2026-118",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -38,10 +38,22 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "2026-08-05",
+      "mentionText": "PO-2026-0110",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "purchase_order"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-08-16",
       "normalizedValue": {
         "dateValue": {
-          "day": 5,
+          "day": 16,
           "month": 8,
           "year": 2026
         }
@@ -57,10 +69,10 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "2026-09-04",
+      "mentionText": "2026-09-15",
       "normalizedValue": {
         "dateValue": {
-          "day": 4,
+          "day": 15,
           "month": 9,
           "year": 2026
         }
@@ -76,12 +88,12 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "3450.00",
+      "mentionText": "4400.00",
       "normalizedValue": {
         "moneyValue": {
           "currencyCode": "SGD",
           "nanos": 0,
-          "units": "3450"
+          "units": "4400"
         }
       },
       "pageAnchor": {
@@ -95,12 +107,12 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "310.50",
+      "mentionText": "396.00",
       "normalizedValue": {
         "moneyValue": {
           "currencyCode": "SGD",
-          "nanos": 500000000,
-          "units": "310"
+          "nanos": 0,
+          "units": "396"
         }
       },
       "pageAnchor": {
@@ -114,12 +126,12 @@
     },
     {
       "confidence": 0.99,
-      "mentionText": "3760.50",
+      "mentionText": "4796.00",
       "normalizedValue": {
         "moneyValue": {
           "currencyCode": "SGD",
-          "nanos": 500000000,
-          "units": "3760"
+          "nanos": 0,
+          "units": "4796"
         }
       },
       "pageAnchor": {
@@ -145,7 +157,7 @@
     },
     {
       "confidence": 0.95,
-      "mentionText": "Freight forwarding, Singapore to Penang",
+      "mentionText": "Campaign design retainer",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -156,7 +168,7 @@
       "properties": [
         {
           "confidence": 0.95,
-          "mentionText": "Freight forwarding, Singapore to Penang",
+          "mentionText": "Campaign design retainer",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -180,12 +192,12 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "2200.00",
+          "mentionText": "3200.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
               "nanos": 0,
-              "units": "2200"
+              "units": "3200"
             }
           },
           "pageAnchor": {
@@ -199,12 +211,12 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "2200.00",
+          "mentionText": "3200.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
               "nanos": 0,
-              "units": "2200"
+              "units": "3200"
             }
           },
           "pageAnchor": {
@@ -221,7 +233,7 @@
     },
     {
       "confidence": 0.95,
-      "mentionText": "Customs clearance handling",
+      "mentionText": "Copywriting, per article",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -232,7 +244,7 @@
       "properties": [
         {
           "confidence": 0.95,
-          "mentionText": "Customs clearance handling",
+          "mentionText": "Copywriting, per article",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -244,7 +256,7 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "1",
+          "mentionText": "6",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -256,12 +268,12 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "450.00",
+          "mentionText": "200.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
               "nanos": 0,
-              "units": "450"
+              "units": "200"
             }
           },
           "pageAnchor": {
@@ -275,88 +287,12 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "450.00",
+          "mentionText": "1200.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
               "nanos": 0,
-              "units": "450"
-            }
-          },
-          "pageAnchor": {
-            "pageRefs": [
-              {
-                "page": "0"
-              }
-            ]
-          },
-          "type": "line_item/amount"
-        }
-      ],
-      "type": "line_item"
-    },
-    {
-      "confidence": 0.95,
-      "mentionText": "Warehouse storage, 10 days",
-      "pageAnchor": {
-        "pageRefs": [
-          {
-            "page": "0"
-          }
-        ]
-      },
-      "properties": [
-        {
-          "confidence": 0.95,
-          "mentionText": "Warehouse storage, 10 days",
-          "pageAnchor": {
-            "pageRefs": [
-              {
-                "page": "0"
-              }
-            ]
-          },
-          "type": "line_item/description"
-        },
-        {
-          "confidence": 0.95,
-          "mentionText": "10",
-          "pageAnchor": {
-            "pageRefs": [
-              {
-                "page": "0"
-              }
-            ]
-          },
-          "type": "line_item/quantity"
-        },
-        {
-          "confidence": 0.95,
-          "mentionText": "80.00",
-          "normalizedValue": {
-            "moneyValue": {
-              "currencyCode": "SGD",
-              "nanos": 0,
-              "units": "80"
-            }
-          },
-          "pageAnchor": {
-            "pageRefs": [
-              {
-                "page": "0"
-              }
-            ]
-          },
-          "type": "line_item/unit_price"
-        },
-        {
-          "confidence": 0.95,
-          "mentionText": "800.00",
-          "normalizedValue": {
-            "moneyValue": {
-              "currencyCode": "SGD",
-              "nanos": 0,
-              "units": "800"
+              "units": "1200"
             }
           },
           "pageAnchor": {
@@ -383,5 +319,5 @@
       "pageNumber": 1
     }
   ],
-  "text": "Bluewave Logistics Pte Ltd\nBW-2026-0442\n3760.50\n"
+  "text": "Lumen Marketing Collective\nLMC-2026-118\n4796.00\n"
 }

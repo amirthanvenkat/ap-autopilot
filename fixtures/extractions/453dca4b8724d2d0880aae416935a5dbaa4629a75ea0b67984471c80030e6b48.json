@@ -184,6 +184,18 @@
             ]
           },
           "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.31,
+          "mentionText": "DMR-AN-ZN",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/product_code"
         }
       ],
       "type": "line_item"

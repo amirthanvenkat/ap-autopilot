@@ -2,7 +2,7 @@
   "entities": [
     {
       "confidence": 0.98,
-      "mentionText": "Lumen Marketing Collective",
+      "mentionText": "Stellar Software Inc",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -14,7 +14,7 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "201877665B",
+      "mentionText": "US880042113",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -26,7 +26,7 @@
     },
     {
       "confidence": 0.99,
-      "mentionText": "LMC-2026-118",
+      "mentionText": "SSI-99120",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -38,11 +38,23 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "2026-08-16",
+      "mentionText": "PO-2026-0108",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "purchase_order"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-07-31",
       "normalizedValue": {
         "dateValue": {
-          "day": 16,
-          "month": 8,
+          "day": 31,
+          "month": 7,
           "year": 2026
         }
       },
@@ -57,11 +69,11 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "2026-09-15",
+      "mentionText": "2026-08-30",
       "normalizedValue": {
         "dateValue": {
-          "day": 15,
-          "month": 9,
+          "day": 30,
+          "month": 8,
           "year": 2026
         }
       },
@@ -76,12 +88,12 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "4400.00",
+      "mentionText": "12000.00",
       "normalizedValue": {
         "moneyValue": {
-          "currencyCode": "SGD",
+          "currencyCode": "USD",
           "nanos": 0,
-          "units": "4400"
+          "units": "12000"
         }
       },
       "pageAnchor": {
@@ -95,12 +107,12 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "396.00",
+      "mentionText": "0.00",
       "normalizedValue": {
         "moneyValue": {
-          "currencyCode": "SGD",
+          "currencyCode": "USD",
           "nanos": 0,
-          "units": "396"
+          "units": "0"
         }
       },
       "pageAnchor": {
@@ -114,12 +126,12 @@
     },
     {
       "confidence": 0.99,
-      "mentionText": "4796.00",
+      "mentionText": "12000.00",
       "normalizedValue": {
         "moneyValue": {
-          "currencyCode": "SGD",
+          "currencyCode": "USD",
           "nanos": 0,
-          "units": "4796"
+          "units": "12000"
         }
       },
       "pageAnchor": {
@@ -133,7 +145,7 @@
     },
     {
       "confidence": 0.98,
-      "mentionText": "SGD",
+      "mentionText": "USD",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -145,7 +157,7 @@
     },
     {
       "confidence": 0.95,
-      "mentionText": "Campaign design retainer",
+      "mentionText": "Platform licence, annual, 40 seats",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -156,7 +168,7 @@
       "properties": [
         {
           "confidence": 0.95,
-          "mentionText": "Campaign design retainer",
+          "mentionText": "Platform licence, annual, 40 seats",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -168,7 +180,7 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "1",
+          "mentionText": "40",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -180,12 +192,12 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "3200.00",
+          "mentionText": "300.00",
           "normalizedValue": {
             "moneyValue": {
-              "currencyCode": "SGD",
+              "currencyCode": "USD",
               "nanos": 0,
-              "units": "3200"
+              "units": "300"
             }
           },
           "pageAnchor": {
@@ -199,88 +211,12 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "3200.00",
+          "mentionText": "12000.00",
           "normalizedValue": {
             "moneyValue": {
-              "currencyCode": "SGD",
+              "currencyCode": "USD",
               "nanos": 0,
-              "units": "3200"
-            }
-          },
-          "pageAnchor": {
-            "pageRefs": [
-              {
-                "page": "0"
-              }
-            ]
-          },
-          "type": "line_item/amount"
-        }
-      ],
-      "type": "line_item"
-    },
-    {
-      "confidence": 0.95,
-      "mentionText": "Copywriting, per article",
-      "pageAnchor": {
-        "pageRefs": [
-          {
-            "page": "0"
-          }
-        ]
-      },
-      "properties": [
-        {
-          "confidence": 0.95,
-          "mentionText": "Copywriting, per article",
-          "pageAnchor": {
-            "pageRefs": [
-              {
-                "page": "0"
-              }
-            ]
-          },
-          "type": "line_item/description"
-        },
-        {
-          "confidence": 0.95,
-          "mentionText": "6",
-          "pageAnchor": {
-            "pageRefs": [
-              {
-                "page": "0"
-              }
-            ]
-          },
-          "type": "line_item/quantity"
-        },
-        {
-          "confidence": 0.95,
-          "mentionText": "200.00",
-          "normalizedValue": {
-            "moneyValue": {
-              "currencyCode": "SGD",
-              "nanos": 0,
-              "units": "200"
-            }
-          },
-          "pageAnchor": {
-            "pageRefs": [
-              {
-                "page": "0"
-              }
-            ]
-          },
-          "type": "line_item/unit_price"
-        },
-        {
-          "confidence": 0.95,
-          "mentionText": "1200.00",
-          "normalizedValue": {
-            "moneyValue": {
-              "currencyCode": "SGD",
-              "nanos": 0,
-              "units": "1200"
+              "units": "12000"
             }
           },
           "pageAnchor": {
@@ -307,5 +243,5 @@
       "pageNumber": 1
     }
   ],
-  "text": "Lumen Marketing Collective\nLMC-2026-118\n4796.00\n"
+  "text": "Stellar Software Inc\nSSI-99120\n12000.00\n"
 }

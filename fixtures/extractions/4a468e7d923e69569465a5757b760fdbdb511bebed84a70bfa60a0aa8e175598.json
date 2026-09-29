@@ -2,7 +2,7 @@
   "entities": [
     {
       "confidence": 0.98,
-      "mentionText": "Northgate Consulting Ltd",
+      "mentionText": "Ironbridge Hardware Supply",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -14,7 +14,7 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "GB443221190",
+      "mentionText": "200455667D",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -26,7 +26,7 @@
     },
     {
       "confidence": 0.99,
-      "mentionText": "NGC-7781",
+      "mentionText": "IBH-0771",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -38,11 +38,23 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "2026-07-28",
+      "mentionText": "PO-2026-0109",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "purchase_order"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-08-08",
       "normalizedValue": {
         "dateValue": {
-          "day": 28,
-          "month": 7,
+          "day": 8,
+          "month": 8,
           "year": 2026
         }
       },
@@ -57,11 +69,11 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "2026-08-27",
+      "mentionText": "2026-09-07",
       "normalizedValue": {
         "dateValue": {
-          "day": 27,
-          "month": 8,
+          "day": 7,
+          "month": 9,
           "year": 2026
         }
       },
@@ -76,12 +88,12 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "8000.00",
+      "mentionText": "634.20",
       "normalizedValue": {
         "moneyValue": {
-          "currencyCode": "GBP",
-          "nanos": 0,
-          "units": "8000"
+          "currencyCode": "SGD",
+          "nanos": 200000000,
+          "units": "634"
         }
       },
       "pageAnchor": {
@@ -95,12 +107,12 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "1600.00",
+      "mentionText": "57.08",
       "normalizedValue": {
         "moneyValue": {
-          "currencyCode": "GBP",
-          "nanos": 0,
-          "units": "1600"
+          "currencyCode": "SGD",
+          "nanos": 80000000,
+          "units": "57"
         }
       },
       "pageAnchor": {
@@ -114,12 +126,12 @@
     },
     {
       "confidence": 0.99,
-      "mentionText": "9600.00",
+      "mentionText": "691.28",
       "normalizedValue": {
         "moneyValue": {
-          "currencyCode": "GBP",
-          "nanos": 0,
-          "units": "9600"
+          "currencyCode": "SGD",
+          "nanos": 280000000,
+          "units": "691"
         }
       },
       "pageAnchor": {
@@ -133,7 +145,7 @@
     },
     {
       "confidence": 0.98,
-      "mentionText": "GBP",
+      "mentionText": "SGD",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -145,7 +157,7 @@
     },
     {
       "confidence": 0.95,
-      "mentionText": "Process review, senior consultant",
+      "mentionText": "Safety helmets, white",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -156,7 +168,7 @@
       "properties": [
         {
           "confidence": 0.95,
-          "mentionText": "Process review, senior consultant",
+          "mentionText": "Safety helmets, white",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -168,7 +180,7 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "40",
+          "mentionText": "18",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -180,12 +192,24 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "150.00",
+          "mentionText": "IBH-HLM-WHT",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/product_code"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "18.90",
           "normalizedValue": {
             "moneyValue": {
-              "currencyCode": "GBP",
-              "nanos": 0,
-              "units": "150"
+              "currencyCode": "SGD",
+              "nanos": 900000000,
+              "units": "18"
             }
           },
           "pageAnchor": {
@@ -199,12 +223,12 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "6000.00",
+          "mentionText": "340.20",
           "normalizedValue": {
             "moneyValue": {
-              "currencyCode": "GBP",
-              "nanos": 0,
-              "units": "6000"
+              "currencyCode": "SGD",
+              "nanos": 200000000,
+              "units": "340"
             }
           },
           "pageAnchor": {
@@ -221,7 +245,7 @@
     },
     {
       "confidence": 0.95,
-      "mentionText": "Workshop facilitation",
+      "mentionText": "Hi-vis vests, large",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -232,7 +256,7 @@
       "properties": [
         {
           "confidence": 0.95,
-          "mentionText": "Workshop facilitation",
+          "mentionText": "Hi-vis vests, large",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -244,7 +268,7 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "2",
+          "mentionText": "21",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -256,12 +280,24 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "1000.00",
+          "mentionText": "IBH-VST-HV-L",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/product_code"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "14.00",
           "normalizedValue": {
             "moneyValue": {
-              "currencyCode": "GBP",
+              "currencyCode": "SGD",
               "nanos": 0,
-              "units": "1000"
+              "units": "14"
             }
           },
           "pageAnchor": {
@@ -275,12 +311,12 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "2000.00",
+          "mentionText": "294.00",
           "normalizedValue": {
             "moneyValue": {
-              "currencyCode": "GBP",
+              "currencyCode": "SGD",
               "nanos": 0,
-              "units": "2000"
+              "units": "294"
             }
           },
           "pageAnchor": {
@@ -307,5 +343,5 @@
       "pageNumber": 1
     }
   ],
-  "text": "Northgate Consulting Ltd\nNGC-7781\n9600.00\n"
+  "text": "Ironbridge Hardware Supply\nIBH-0771\n691.28\n"
 }

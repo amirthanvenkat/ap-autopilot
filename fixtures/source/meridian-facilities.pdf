@@ -10,7 +10,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 4 0 obj
-<< /Length 22976 >>
+<< /Length 23013 >>
 stream
 BT
 /F1 11 Tf
@@ -30,17 +30,19 @@ T*
 T*
 (Due date: 2026-08-31) Tj
 T*
+(Purchase order: PO-2026-0105) Tj
+T*
 () Tj
 T*
-(Description                                      Qty    Unit price        Amount) Tj
+(Item code     Description                        Qty    Unit price        Amount) Tj
 T*
 (--------------------------------------------------------------------------------) Tj
 T*
-(Office cleaning, August                            1       3200.00       3200.00) Tj
+(              Office cleaning, August              1       3200.00       3200.00) Tj
 T*
-(Pantry restocking                                  1        900.00        900.00) Tj
+(              Pantry restocking                    1        900.00        900.00) Tj
 T*
-(Pest control, quarterly                            1       1500.00       1500.00) Tj
+(              Pest control, quarterly              1       1500.00       1500.00) Tj
 T*
 () Tj
 T*
@@ -673,9 +675,9 @@ xref
 0000000064 00000 n 
 0000000121 00000 n 
 0000000191 00000 n 
-0000023220 00000 n 
+0000023257 00000 n 
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-23346
+23383
 %%EOF

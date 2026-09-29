@@ -10,7 +10,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 4 0 obj
-<< /Length 22761 >>
+<< /Length 22798 >>
 stream
 BT
 /F1 11 Tf
@@ -30,17 +30,19 @@ T*
 T*
 (Due date: 2026-09-01) Tj
 T*
+(Purchase order: PO-2026-0112) Tj
+T*
 () Tj
 T*
-(Description                                      Qty    Unit price        Amount) Tj
+(Item code     Description                        Qty    Unit price        Amount) Tj
 T*
 (--------------------------------------------------------------------------------) Tj
 T*
-(Forklift lease, unit A, monthly                    1       3200.00       3200.00) Tj
+(              Forklift lease, unit A, monthl       1       3200.00       3200.00) Tj
 T*
-(Forklift lease, unit B, monthly                    1       3200.00       3200.00) Tj
+(              Forklift lease, unit B, monthl       1       3200.00       3200.00) Tj
 T*
-(Scissor lift lease, monthly                        1       2850.00       2850.00) Tj
+(              Scissor lift lease, monthly          1       2850.00       2850.00) Tj
 T*
 () Tj
 T*
@@ -656,7 +658,7 @@ ET
 endstream
 endobj
 5 0 obj
-<< /Length 22761 >>
+<< /Length 22798 >>
 stream
 BT
 /F1 11 Tf
@@ -676,17 +678,19 @@ T*
 T*
 (Due date: 2026-09-01) Tj
 T*
+(Purchase order: PO-2026-0112) Tj
+T*
 () Tj
 T*
-(Description                                      Qty    Unit price        Amount) Tj
+(Item code     Description                        Qty    Unit price        Amount) Tj
 T*
 (--------------------------------------------------------------------------------) Tj
 T*
-(Pallet jack lease, monthly                         6        180.00       1080.00) Tj
+(              Pallet jack lease, monthly           6        180.00       1080.00) Tj
 T*
-(Operator training, per session                     4        520.00       2080.00) Tj
+(              Operator training, per session       4        520.00       2080.00) Tj
 T*
-(Preventive maintenance, quarterly                  1       3040.00       3040.00) Tj
+(              Preventive maintenance, quarte       1       3040.00       3040.00) Tj
 T*
 () Tj
 T*
@@ -1302,7 +1306,7 @@ ET
 endstream
 endobj
 6 0 obj
-<< /Length 22875 >>
+<< /Length 22912 >>
 stream
 BT
 /F1 11 Tf
@@ -1322,13 +1326,15 @@ T*
 T*
 (Due date: 2026-09-01) Tj
 T*
+(Purchase order: PO-2026-0112) Tj
+T*
 () Tj
 T*
-(Description                                      Qty    Unit price        Amount) Tj
+(Item code     Description                        Qty    Unit price        Amount) Tj
 T*
 (--------------------------------------------------------------------------------) Tj
 T*
-(Insurance surcharge                                1       3000.00       3000.00) Tj
+(              Insurance surcharge                  1       3000.00       3000.00) Tj
 T*
 () Tj
 T*
@@ -1969,13 +1975,13 @@ xref
 0000000064 00000 n 
 0000000133 00000 n 
 0000000203 00000 n 
-0000023017 00000 n 
-0000045831 00000 n 
-0000068759 00000 n 
-0000068885 00000 n 
-0000069011 00000 n 
+0000023054 00000 n 
+0000045905 00000 n 
+0000068870 00000 n 
+0000068996 00000 n 
+0000069122 00000 n 
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-69137
+69248
 %%EOF

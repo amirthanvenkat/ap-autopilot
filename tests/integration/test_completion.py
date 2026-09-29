@@ -438,3 +438,26 @@ async def test_no_outbound_http_happens_in_fixtures_mode(
     assert await count(engine, "documents") == 1
     assert await count(engine, "extraction_results") == 1
     assert await count(engine, "extraction_jobs", "status = 'SUCCEEDED'") == 1
+
+
+async def test_po_number_and_skus_are_persisted(
+    deps: Dependencies, engine: AsyncEngine
+) -> None:
+    """Spec 02 resolves the PO from the column and matches lines on SKU."""
+    _document_id, job_id = await _ingest(deps, "ironbridge-hardware")
+    await sweep(deps)
+
+    result = await fetch_one(
+        engine,
+        "select extraction_id, po_number from extraction_results "
+        "where job_id = :job_id",
+        job_id=job_id,
+    )
+    assert result.po_number == "PO-2026-0109"
+    sku = await fetch_one(
+        engine,
+        "select field_value from extraction_fields "
+        "where extraction_id = :e and field_path = '/line_items/1/sku'",
+        e=result.extraction_id,
+    )
+    assert sku.field_value == "IBH-VST-HV-L"

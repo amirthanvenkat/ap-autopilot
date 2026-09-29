@@ -15,6 +15,7 @@
     "supplier_name": { "$ref": "#/$defs/textField" },
     "supplier_tax_id": { "$ref": "#/$defs/textField" },
     "invoice_number": { "$ref": "#/$defs/textField" },
+    "po_number": { "$ref": "#/$defs/textField" },
     "invoice_date": { "$ref": "#/$defs/dateField" },
     "due_date": { "$ref": "#/$defs/dateField" },
     "currency": { "$ref": "#/$defs/currencyField" },
@@ -114,6 +115,10 @@
       "required": ["description", "quantity", "unit_price", "line_total"],
       "properties": {
         "description": { "$ref": "#/$defs/textField" },
+        "sku": {
+          "$ref": "#/$defs/textField",
+          "description": "The supplier's product code for the line. Optional: absent when the extractor reported none, which is normal for a service line."
+        },
         "quantity": { "$ref": "#/$defs/quantityField" },
         "unit_price": { "$ref": "#/$defs/moneyField" },
         "line_total": { "$ref": "#/$defs/moneyField" }

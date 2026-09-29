@@ -38,6 +38,18 @@
     },
     {
       "confidence": 0.9,
+      "mentionText": "PO-2026-0118",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "purchase_order"
+    },
+    {
+      "confidence": 0.9,
       "mentionText": "2026-08-18",
       "normalizedValue": {
         "dateValue": {

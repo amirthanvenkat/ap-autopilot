@@ -10,7 +10,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 4 0 obj
-<< /Length 21769 >>
+<< /Length 21806 >>
 stream
 BT
 /F1 11 Tf
@@ -30,15 +30,17 @@ T*
 T*
 (Due date: 2026-08-23) Tj
 T*
+(Purchase order: PO-2026-0115) Tj
+T*
 () Tj
 T*
-(Description                                      Qty    Unit price        Amount) Tj
+(Item code     Description                        Qty    Unit price        Amount) Tj
 T*
 (--------------------------------------------------------------------------------) Tj
 T*
-(Plywood sheets, 18mm                              60         34.00       2040.00) Tj
+(WT-PLY-18     Plywood sheets, 18mm                60         34.00       2040.00) Tj
 T*
-(Timber battens, 2.4m                             120          9.50       1140.00) Tj
+(WT-BAT-24     Timber battens, 2.4m               120          9.50       1140.00) Tj
 T*
 () Tj
 T*
@@ -673,9 +675,9 @@ xref
 0000000064 00000 n 
 0000000121 00000 n 
 0000000191 00000 n 
-0000022013 00000 n 
+0000022050 00000 n 
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-22139
+22176
 %%EOF

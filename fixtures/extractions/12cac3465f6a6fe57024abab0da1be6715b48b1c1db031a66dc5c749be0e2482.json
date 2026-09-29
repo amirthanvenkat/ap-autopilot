@@ -1,8 +1,8 @@
 {
   "entities": [
     {
-      "confidence": 0.98,
-      "mentionText": "Quayside Catering Services",
+      "confidence": 0.87,
+      "mentionText": "Westmoor Timber Merchants",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -13,8 +13,8 @@
       "type": "supplier_name"
     },
     {
-      "confidence": 0.97,
-      "mentionText": "201599887E",
+      "confidence": 0.86,
+      "mentionText": "198922334G",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -25,8 +25,8 @@
       "type": "supplier_tax_id"
     },
     {
-      "confidence": 0.99,
-      "mentionText": "QC-3321",
+      "confidence": 0.88,
+      "mentionText": "WTM-0450",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -37,12 +37,24 @@
       "type": "invoice_id"
     },
     {
-      "confidence": 0.97,
-      "mentionText": "2026-08-19",
+      "confidence": 0.86,
+      "mentionText": "PO-2026-0115",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "purchase_order"
+    },
+    {
+      "confidence": 0.86,
+      "mentionText": "2026-07-24",
       "normalizedValue": {
         "dateValue": {
-          "day": 19,
-          "month": 8,
+          "day": 24,
+          "month": 7,
           "year": 2026
         }
       },
@@ -56,12 +68,12 @@
       "type": "invoice_date"
     },
     {
-      "confidence": 0.97,
-      "mentionText": "2026-09-18",
+      "confidence": 0.86,
+      "mentionText": "2026-08-23",
       "normalizedValue": {
         "dateValue": {
-          "day": 18,
-          "month": 9,
+          "day": 23,
+          "month": 8,
           "year": 2026
         }
       },
@@ -75,13 +87,13 @@
       "type": "due_date"
     },
     {
-      "confidence": 0.97,
-      "mentionText": "1875.00",
+      "confidence": 0.86,
+      "mentionText": "3180.00",
       "normalizedValue": {
         "moneyValue": {
           "currencyCode": "SGD",
           "nanos": 0,
-          "units": "1875"
+          "units": "3180"
         }
       },
       "pageAnchor": {
@@ -94,13 +106,13 @@
       "type": "net_amount"
     },
     {
-      "confidence": 0.97,
-      "mentionText": "168.75",
+      "confidence": 0.86,
+      "mentionText": "286.20",
       "normalizedValue": {
         "moneyValue": {
           "currencyCode": "SGD",
-          "nanos": 750000000,
-          "units": "168"
+          "nanos": 200000000,
+          "units": "286"
         }
       },
       "pageAnchor": {
@@ -113,13 +125,13 @@
       "type": "total_tax_amount"
     },
     {
-      "confidence": 0.99,
-      "mentionText": "2043.75",
+      "confidence": 0.88,
+      "mentionText": "3466.20",
       "normalizedValue": {
         "moneyValue": {
           "currencyCode": "SGD",
-          "nanos": 750000000,
-          "units": "2043"
+          "nanos": 200000000,
+          "units": "3466"
         }
       },
       "pageAnchor": {
@@ -132,7 +144,7 @@
       "type": "total_amount"
     },
     {
-      "confidence": 0.98,
+      "confidence": 0.87,
       "mentionText": "SGD",
       "pageAnchor": {
         "pageRefs": [
@@ -144,8 +156,8 @@
       "type": "currency"
     },
     {
-      "confidence": 0.95,
-      "mentionText": "Staff lunch catering, 75 pax",
+      "confidence": 0.82,
+      "mentionText": "Plywood sheets, 18mm",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -155,8 +167,8 @@
       },
       "properties": [
         {
-          "confidence": 0.95,
-          "mentionText": "Staff lunch catering, 75 pax",
+          "confidence": 0.82,
+          "mentionText": "Plywood sheets, 18mm",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -167,8 +179,8 @@
           "type": "line_item/description"
         },
         {
-          "confidence": 0.95,
-          "mentionText": "75",
+          "confidence": 0.82,
+          "mentionText": "60",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -179,13 +191,25 @@
           "type": "line_item/quantity"
         },
         {
-          "confidence": 0.95,
-          "mentionText": "22.00",
+          "confidence": 0.82,
+          "mentionText": "WT-PLY-18",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/product_code"
+        },
+        {
+          "confidence": 0.82,
+          "mentionText": "34.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
               "nanos": 0,
-              "units": "22"
+              "units": "34"
             }
           },
           "pageAnchor": {
@@ -198,13 +222,13 @@
           "type": "line_item/unit_price"
         },
         {
-          "confidence": 0.95,
-          "mentionText": "1650.00",
+          "confidence": 0.82,
+          "mentionText": "2040.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
               "nanos": 0,
-              "units": "1650"
+              "units": "2040"
             }
           },
           "pageAnchor": {
@@ -220,8 +244,8 @@
       "type": "line_item"
     },
     {
-      "confidence": 0.95,
-      "mentionText": "Beverage station",
+      "confidence": 0.8,
+      "mentionText": "Timber battens, 2.4m",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -231,8 +255,8 @@
       },
       "properties": [
         {
-          "confidence": 0.95,
-          "mentionText": "Beverage station",
+          "confidence": 0.8,
+          "mentionText": "Timber battens, 2.4m",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -243,8 +267,8 @@
           "type": "line_item/description"
         },
         {
-          "confidence": 0.95,
-          "mentionText": "1",
+          "confidence": 0.8,
+          "mentionText": "120",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -255,13 +279,25 @@
           "type": "line_item/quantity"
         },
         {
-          "confidence": 0.95,
-          "mentionText": "225.00",
+          "confidence": 0.8,
+          "mentionText": "WT-BAT-24",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/product_code"
+        },
+        {
+          "confidence": 0.8,
+          "mentionText": "9.50",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
-              "nanos": 0,
-              "units": "225"
+              "nanos": 500000000,
+              "units": "9"
             }
           },
           "pageAnchor": {
@@ -274,13 +310,13 @@
           "type": "line_item/unit_price"
         },
         {
-          "confidence": 0.95,
-          "mentionText": "225.00",
+          "confidence": 0.8,
+          "mentionText": "1140.00",
           "normalizedValue": {
             "moneyValue": {
               "currencyCode": "SGD",
               "nanos": 0,
-              "units": "225"
+              "units": "1140"
             }
           },
           "pageAnchor": {
@@ -307,5 +343,5 @@
       "pageNumber": 1
     }
   ],
-  "text": "Quayside Catering Services\nQC-3321\n2043.75\n"
+  "text": "Westmoor Timber Merchants\nWTM-0450\n3466.20\n"
 }

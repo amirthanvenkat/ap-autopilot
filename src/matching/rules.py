@@ -70,6 +70,7 @@ HEADER_FIELDS = frozenset(
         "supplier_name",
         "supplier_tax_id",
         "invoice_number",
+        "po_number",
         "invoice_date",
         "due_date",
         "currency",

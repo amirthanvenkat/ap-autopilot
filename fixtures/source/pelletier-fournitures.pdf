@@ -10,7 +10,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 4 0 obj
-<< /Length 23640 >>
+<< /Length 23678 >>
 stream
 BT
 /F1 11 Tf
@@ -30,17 +30,19 @@ T*
 T*
 (Date d'echeance: 2026-09-08) Tj
 T*
+(Bon de commande: PO-2026-0114) Tj
+T*
 () Tj
 T*
-(Designation                                      Qte Prix unitaire       Montant) Tj
+(Reference     Designation                        Qte Prix unitaire       Montant) Tj
 T*
 (--------------------------------------------------------------------------------) Tj
 T*
-(Papier A4, carton de 5 rames                      10         38.00        380.00) Tj
+(PF-PAP-A4-5   Papier A4, carton de 5 rames        10         38.00        380.00) Tj
 T*
-(Cartouches d'encre, noir                          14         72.50       1015.00) Tj
+(PF-ENC-NOIR   Cartouches d'encre, noir            14         72.50       1015.00) Tj
 T*
-(Chaises de bureau ergonomiques                     5        211.00       1055.00) Tj
+(PF-CHS-ERGO   Chaises de bureau ergonomiques       5        211.00       1055.00) Tj
 T*
 () Tj
 T*
@@ -675,9 +677,9 @@ xref
 0000000064 00000 n 
 0000000121 00000 n 
 0000000191 00000 n 
-0000023884 00000 n 
+0000023922 00000 n 
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-24010
+24048
 %%EOF

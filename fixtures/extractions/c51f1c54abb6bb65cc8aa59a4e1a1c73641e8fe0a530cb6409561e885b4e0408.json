@@ -2,7 +2,7 @@
   "entities": [
     {
       "confidence": 0.98,
-      "mentionText": "Stellar Software Inc",
+      "mentionText": "Quayside Catering Services",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -14,7 +14,7 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "US880042113",
+      "mentionText": "201599887E",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -26,7 +26,7 @@
     },
     {
       "confidence": 0.99,
-      "mentionText": "SSI-99120",
+      "mentionText": "QC-3321",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -38,11 +38,23 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "2026-07-31",
+      "mentionText": "PO-2026-0107",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "type": "purchase_order"
+    },
+    {
+      "confidence": 0.97,
+      "mentionText": "2026-08-19",
       "normalizedValue": {
         "dateValue": {
-          "day": 31,
-          "month": 7,
+          "day": 19,
+          "month": 8,
           "year": 2026
         }
       },
@@ -57,11 +69,11 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "2026-08-30",
+      "mentionText": "2026-09-18",
       "normalizedValue": {
         "dateValue": {
-          "day": 30,
-          "month": 8,
+          "day": 18,
+          "month": 9,
           "year": 2026
         }
       },
@@ -76,12 +88,12 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "12000.00",
+      "mentionText": "1875.00",
       "normalizedValue": {
         "moneyValue": {
-          "currencyCode": "USD",
+          "currencyCode": "SGD",
           "nanos": 0,
-          "units": "12000"
+          "units": "1875"
         }
       },
       "pageAnchor": {
@@ -95,12 +107,12 @@
     },
     {
       "confidence": 0.97,
-      "mentionText": "0.00",
+      "mentionText": "168.75",
       "normalizedValue": {
         "moneyValue": {
-          "currencyCode": "USD",
-          "nanos": 0,
-          "units": "0"
+          "currencyCode": "SGD",
+          "nanos": 750000000,
+          "units": "168"
         }
       },
       "pageAnchor": {
@@ -114,12 +126,12 @@
     },
     {
       "confidence": 0.99,
-      "mentionText": "12000.00",
+      "mentionText": "2043.75",
       "normalizedValue": {
         "moneyValue": {
-          "currencyCode": "USD",
-          "nanos": 0,
-          "units": "12000"
+          "currencyCode": "SGD",
+          "nanos": 750000000,
+          "units": "2043"
         }
       },
       "pageAnchor": {
@@ -133,7 +145,7 @@
     },
     {
       "confidence": 0.98,
-      "mentionText": "USD",
+      "mentionText": "SGD",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -145,7 +157,7 @@
     },
     {
       "confidence": 0.95,
-      "mentionText": "Platform licence, annual, 40 seats",
+      "mentionText": "Staff lunch catering, 75 pax",
       "pageAnchor": {
         "pageRefs": [
           {
@@ -156,7 +168,7 @@
       "properties": [
         {
           "confidence": 0.95,
-          "mentionText": "Platform licence, annual, 40 seats",
+          "mentionText": "Staff lunch catering, 75 pax",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -168,7 +180,7 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "40",
+          "mentionText": "75",
           "pageAnchor": {
             "pageRefs": [
               {
@@ -180,12 +192,12 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "300.00",
+          "mentionText": "22.00",
           "normalizedValue": {
             "moneyValue": {
-              "currencyCode": "USD",
+              "currencyCode": "SGD",
               "nanos": 0,
-              "units": "300"
+              "units": "22"
             }
           },
           "pageAnchor": {
@@ -199,12 +211,88 @@
         },
         {
           "confidence": 0.95,
-          "mentionText": "12000.00",
+          "mentionText": "1650.00",
           "normalizedValue": {
             "moneyValue": {
-              "currencyCode": "USD",
+              "currencyCode": "SGD",
               "nanos": 0,
-              "units": "12000"
+              "units": "1650"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/amount"
+        }
+      ],
+      "type": "line_item"
+    },
+    {
+      "confidence": 0.95,
+      "mentionText": "Beverage station",
+      "pageAnchor": {
+        "pageRefs": [
+          {
+            "page": "0"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "confidence": 0.95,
+          "mentionText": "Beverage station",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/description"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "1",
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/quantity"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "225.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "225"
+            }
+          },
+          "pageAnchor": {
+            "pageRefs": [
+              {
+                "page": "0"
+              }
+            ]
+          },
+          "type": "line_item/unit_price"
+        },
+        {
+          "confidence": 0.95,
+          "mentionText": "225.00",
+          "normalizedValue": {
+            "moneyValue": {
+              "currencyCode": "SGD",
+              "nanos": 0,
+              "units": "225"
             }
           },
           "pageAnchor": {
@@ -231,5 +319,5 @@
       "pageNumber": 1
     }
   ],
-  "text": "Stellar Software Inc\nSSI-99120\n12000.00\n"
+  "text": "Quayside Catering Services\nQC-3321\n2043.75\n"
 }

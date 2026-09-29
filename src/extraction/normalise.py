@@ -18,6 +18,7 @@ from typing import Any
 # Document AI Invoice Parser entity types mapped onto our field names.
 _SCALAR_ENTITIES: dict[str, str] = {
     "invoice_id": "invoice_number",
+    "purchase_order": "po_number",
     "invoice_date": "invoice_date",
     "due_date": "due_date",
     "supplier_name": "supplier_name",
@@ -35,6 +36,7 @@ _LINE_ITEM_PROPERTIES: dict[str, str] = {
     "line_item/quantity": "quantity",
     "line_item/unit_price": "unit_price",
     "line_item/amount": "line_total",
+    "line_item/product_code": "sku",
 }
 
 _MONEY_LINE_FIELDS = frozenset({"unit_price", "line_total"})
@@ -187,6 +189,11 @@ def _line_item(entity: dict[str, Any]) -> dict[str, Any]:
             by_field[field] = prop
 
     line: dict[str, Any] = {}
+    # Optional, so absent unless reported. The four spec 01 properties are
+    # required and always present, carrying a null when not reported.
+    sku = by_field.get("sku")
+    if sku is not None:
+        line["sku"] = _envelope(_text_value(sku), sku)
     for field in ("description", "quantity", "unit_price", "line_total"):
         prop = by_field.get(field)
         if prop is None:

@@ -10,7 +10,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 4 0 obj
-<< /Length 21685 >>
+<< /Length 21722 >>
 stream
 BT
 /F1 11 Tf
@@ -30,15 +30,17 @@ T*
 T*
 (Due date: 2026-09-15) Tj
 T*
+(Purchase order: PO-2026-0110) Tj
+T*
 () Tj
 T*
-(Description                                      Qty    Unit price        Amount) Tj
+(Item code     Description                        Qty    Unit price        Amount) Tj
 T*
 (--------------------------------------------------------------------------------) Tj
 T*
-(Campaign design retainer                           1       3200.00       3200.00) Tj
+(              Campaign design retainer             1       3200.00       3200.00) Tj
 T*
-(Copywriting, per article                           6        200.00       1200.00) Tj
+(              Copywriting, per article             6        200.00       1200.00) Tj
 T*
 () Tj
 T*
@@ -671,9 +673,9 @@ xref
 0000000064 00000 n 
 0000000121 00000 n 
 0000000191 00000 n 
-0000021929 00000 n 
+0000021966 00000 n 
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-22055
+22092
 %%EOF
