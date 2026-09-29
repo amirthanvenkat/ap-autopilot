@@ -13,10 +13,10 @@ works, with the reasoning behind each decision written down.
 | Module | Spec | State |
 | --- | --- | --- |
 | Ingestion and extraction | `docs/specs/01-ingestion-and-extraction.md` | Built and tested, including the spec 02 prerequisite in 5.1 |
-| Matching engine | `docs/specs/02-matching-engine.md` | Schema (migration `0002`) and rules loader built. Resolver and match query not built |
+| Matching engine | `docs/specs/02-matching-engine.md` | Schema, rules loader and supplier resolver built. Canonicalisation and match query not built |
 | Review queue, posting, analytics, MCP server | Specs 03 to 05 | Not started |
 
-Section 5 is mostly design. The parts built so far are 5.1, 5.3 and 5.8.
+Section 5 is partly design. The parts built so far are 5.1, 5.3, 5.4 and 5.8.
 
 ## Contents
 
@@ -291,19 +291,56 @@ These go in migration `0002`. Migrations are forward-only.
 | `exceptions.exception_key`, unique with `invoice_id` | Stable identity across re-runs (6.8, adopted) |
 | `exceptions.resolved_by`, `resolved_at` | Tells a matcher auto-close apart from a reviewer decision |
 | `pg_trgm` extension and a GIN trigram index on normalised supplier names | Supplier resolution. Neon supports `pg_trgm`. Confirm when the migration runs |
+| `normalise_tax_id()` and a unique index on it (migration `0004`) | One tax ID names one supplier however it is punctuated |
 
 ### 5.4 Supplier resolution
 
-One SQL statement tries three tiers in order and stops at the first hit:
+Built. The query is `src/matching/queries/resolve_supplier.sql` and the
+wrapper is `src/matching/suppliers.py`.
 
-1. Exact tax ID.
-2. Exact normalised legal or trading name. Normalisation lowercases the
-   name, strips punctuation, and removes entity suffixes such as `pte ltd`
-   and `llp`. It is a SQL function, so the index and the lookup cannot
-   drift apart.
-3. Trigram similarity. The best candidate is accepted only if its score is
-   at least `trigram_threshold` and the runner-up is more than
+The statement returns one row: a supplier with its method and score, or no
+supplier and a reason. The reason becomes the `SUPPLIER_UNRESOLVED` detail.
+Three tiers are tried in order, and the first to reach a verdict wins. A
+refusal counts as a verdict, so a doubtful tier never falls through to a
+weaker one.
+
+1. **Tax ID, corroborated by the name** (6.4, adopted 2026-09-29). Tax IDs
+   are compared in normalised form: uppercase, letters and digits only. The
+   unique index uses the same form (migration `0004`). A hit counts only if
+   the extracted name scores at least `tax_id_name_floor` against the
+   supplier's legal or trading names. A missing name scores zero.
+2. **Exact normalised legal or trading name.** Normalisation lowercases the
+   name, joins dotted initials, strips punctuation, and removes trailing
+   entity suffixes such as `pte ltd` and `llp`. It is one SQL function, so
+   the indexes and the lookup cannot drift apart. A name shared by two
+   suppliers is refused.
+3. **Trigram similarity.** The best candidate is accepted only if its score
+   is at least `trigram_threshold` and the runner-up is more than
    `ambiguity_margin` behind.
+
+Two further refusals apply to a name match:
+
+- **Inactive supplier.** An inactive supplier is never chosen.
+- **Conflicting tax ID.** The invoice shows a tax ID that matches no
+  supplier, and the supplier the name found is registered under a different
+  one. The evidence conflicts, so the resolver does not pick a side.
+
+Details that matter:
+
+- **Rounding.** Scores are rounded to four places before any comparison.
+  `similarity()` returns a `real`, and a `real` 0.82 fails a threshold of
+  exactly 0.82.
+- **Index use.** The `%` operator uses the trigram index on legal names. Its
+  threshold is set for the transaction just below `trigram_threshold -
+  ambiguity_margin`, the lowest score that can still make the best
+  candidate ambiguous. The prefilter therefore never hides a runner-up.
+  Trading names cannot be indexed by `pg_trgm` and are scanned.
+- **The corroboration floor, 0.30.** Chosen from measured scores:
+  unrelated supplier names scored 0.00 to 0.19, and the right name under
+  heavy OCR damage scored 0.33.
+- **The spec's trigram threshold, 0.82, is strict.** A one-letter misread
+  such as "SUPPLES" scores 0.78 and goes to review. That is consistent with
+  "do not guess", and it can be tuned in `rules.yaml`.
 
 A miss raises `SUPPLIER_UNRESOLVED` at `BLOCK`. Matching still runs on the
 lines, so a reviewer sees every problem in one pass.
@@ -535,7 +572,8 @@ Each ends with a recommendation and its status.
 | 6.1 Two-way lines for services | Adopted 2026-09-29, see 5.5 |
 | 6.8 Upsert exceptions on a stable key | Adopted 2026-09-29, see 5.5 |
 | 6.9 Batch the match query | Adopted 2026-09-29, see 5.5 |
-| 6.2 to 6.7, 6.10, 6.11 | Open. The design in section 5 does not include them |
+| 6.4 Corroborate a tax ID hit with the name | Adopted and built 2026-09-29, see 5.4 |
+| 6.2, 6.3, 6.5 to 6.7, 6.10, 6.11 | Open. The design in section 5 does not include them |
 
 ### 6.1 Services have no goods receipt (adopted)
 
@@ -571,7 +609,7 @@ with the goods line. The quantity checks then run against the wrong thing.
 *Recommendation:* use rung 2 only when the invoice also has exactly one
 unmatched line, or when description similarity clears a low floor.
 
-### 6.4 An exact tax ID match can still be wrong
+### 6.4 An exact tax ID match can still be wrong (adopted)
 
 A misread tax ID that happens to equal another supplier's ID wins tier 1
 outright. The spec names paying the wrong supplier as the most expensive
@@ -678,7 +716,7 @@ invoice date, and the Invoice Parser field names in 5.1 are confirmed.
    evidently still there.
 3. **Values still to set:** the `currency_overrides` entries, and the
    `line_matching` threshold and margin.
-4. **Remaining challenges:** 6.2 to 6.7, 6.10 and 6.11.
+4. **Remaining challenges:** 6.2, 6.3, 6.5 to 6.7, 6.10 and 6.11.
 
 ---
 

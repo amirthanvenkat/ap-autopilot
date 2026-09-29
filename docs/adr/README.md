@@ -58,3 +58,10 @@ Spec 02 decisions taken on 2026-09-29:
 - The match query takes a batch of invoice ids, with at most one invoice
   per PO per batch, and the caller runs rounds. That keeps set-based
   execution equivalent to matching one invoice at a time.
+- A tax ID hit resolves a supplier only when the extracted name scores at
+  least 0.30 against that supplier's names, a floor chosen from measured
+  scores. A refused tier never falls through to a weaker one.
+- A name match is refused when the invoice's tax ID matches nobody and the
+  named supplier is registered under another. Inactive suppliers are never
+  resolved.
+- Tax IDs are unique and compared in normalised form (migration 0004).
