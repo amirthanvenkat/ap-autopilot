@@ -16,13 +16,20 @@ from src.common.logging import get_logger
 log = get_logger(__name__)
 
 
+def _is_windows() -> bool:
+    # mypy narrows direct sys.platform checks to the platform it runs on,
+    # which would mark the Windows branch unreachable, and so unchecked, on
+    # Linux. A function call is not narrowed, so both branches are checked.
+    return sys.platform == "win32"
+
+
 def configure_event_loop() -> None:
     """Select an event loop the database driver can use.
 
     Called before the server creates its loop. On any platform other than
     Windows this does nothing at all.
     """
-    if sys.platform != "win32":
+    if not _is_windows():
         return
     policy = getattr(asyncio, "WindowsSelectorEventLoopPolicy", None)
     if policy is None:
