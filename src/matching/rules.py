@@ -131,6 +131,28 @@ class Tolerances(_Strict):
 class SupplierResolutionRules(_Strict):
     trigram_threshold: Probability
     ambiguity_margin: Probability
+    # README challenge 6.4: a tax ID hit counts only when the extracted name
+    # scores at least this against the supplier's names. A floor, not a
+    # match: it rejects a misread tax ID that lands on an unrelated
+    # supplier, and tolerates heavy OCR damage to the right name.
+    tax_id_name_floor: Probability
+
+    @model_validator(mode="after")
+    def _ordered(self) -> SupplierResolutionRules:
+        if self.ambiguity_margin >= self.trigram_threshold:
+            raise ValueError("ambiguity_margin must be below trigram_threshold")
+        if self.tax_id_name_floor > self.trigram_threshold:
+            raise ValueError("tax_id_name_floor must not exceed trigram_threshold")
+        return self
+
+    @property
+    def candidate_floor(self) -> Decimal:
+        """The lowest score that can still make a trigram match ambiguous.
+
+        A runner-up matters only when it is within the margin of a best
+        score that cleared the threshold.
+        """
+        return self.trigram_threshold - self.ambiguity_margin
 
 
 class DuplicateRules(_Strict):
@@ -179,15 +201,6 @@ class MatchingRules(_Strict):
     duplicates: DuplicateRules
     tax: TaxRules
     severity_overrides: dict[ExceptionType, Severity] = Field(default_factory=dict)
-
-    @model_validator(mode="after")
-    def _margin_below_threshold(self) -> MatchingRules:
-        resolution = self.supplier_resolution
-        if resolution.ambiguity_margin >= resolution.trigram_threshold:
-            raise ValueError(
-                "supplier_resolution.ambiguity_margin must be below trigram_threshold"
-            )
-        return self
 
     def confidence_threshold(self, field: str) -> Decimal:
         """The threshold for one header field."""

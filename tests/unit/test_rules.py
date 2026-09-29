@@ -163,6 +163,7 @@ def _mutated(path: list[str], value: Any) -> str:
         (["severity_overrides"], {"PRICE_VARIANCES": "WARN"}, "unknown type"),
         (["severity_overrides"], {"PRICE_VARIANCE": "INFO"}, "unknown severity"),
         (["supplier_resolution", "ambiguity_margin"], 0.9, "margin above threshold"),
+        (["supplier_resolution", "tax_id_name_floor"], 0.9, "floor above threshold"),
         (["duplicates", "date_window_days"], 0, "zero day window"),
     ],
 )

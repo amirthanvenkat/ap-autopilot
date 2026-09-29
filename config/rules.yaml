@@ -31,7 +31,13 @@ tolerances:
 
 supplier_resolution:
   trigram_threshold: 0.82
+  # Two candidates whose scores differ by this much or less are ambiguous.
   ambiguity_margin:  0.05
+  # A tax ID hit counts only if the extracted name scores at least this
+  # against the supplier's legal or trading names (README 6.4). Chosen on
+  # 2026-09-29 from measured scores: unrelated supplier names score 0.00 to
+  # 0.19, and the right name under heavy OCR damage scores 0.33.
+  tax_id_name_floor: 0.30
 
 duplicates:
   amount_tolerance_abs: 0.01
