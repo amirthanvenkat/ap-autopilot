@@ -238,3 +238,18 @@ async def test_unknown_exception_type_is_rejected(engine: AsyncEngine) -> None:
                     "values ('inv-1', 'k', 'PRICE_VARIANCES', 'BLOCK', 'd')"
                 )
             )
+
+
+async def test_tax_id_is_unique_in_normalised_form(engine: AsyncEngine) -> None:
+    """Resolution stops at a tax ID hit, so a tax ID must name one supplier."""
+    insert = text(
+        "insert into suppliers (supplier_id, legal_name, tax_id, currency) "
+        "values (:s, :n, :t, 'SGD')"
+    )
+    async with engine.begin() as conn:
+        await conn.execute(insert, {"s": "sup-1", "n": "Acme", "t": "200812345K"})
+    with pytest.raises(IntegrityError, match="suppliers_tax_id_uidx"):
+        async with engine.begin() as conn:
+            await conn.execute(
+                insert, {"s": "sup-2", "n": "Other", "t": " 2008-12345 k"}
+            )
