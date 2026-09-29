@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from sqlalchemy import (
     BigInteger,
+    Boolean,
     CheckConstraint,
     Column,
     Date,
@@ -24,7 +25,7 @@ from sqlalchemy import (
     UniqueConstraint,
     func,
 )
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 
 metadata = MetaData()
 
@@ -294,4 +295,197 @@ gmail_watch_state = Table(
         nullable=False,
         server_default=func.now(),
     ),
+)
+
+# --------------------------------------------------------------------------
+# Spec 02: matching. Migration 0002 is the source of the DDL, including the
+# normalisation functions and partial indexes; these objects mirror its
+# columns so queries are typed. tests/integration/test_matching_schema.py
+# fails if the two drift apart.
+# --------------------------------------------------------------------------
+
+suppliers = Table(
+    "suppliers",
+    metadata,
+    Column("supplier_id", Text, primary_key=True),
+    Column("legal_name", Text, nullable=False),
+    Column("trading_names", ARRAY(Text), nullable=False, server_default="{}"),
+    Column("tax_id", Text),
+    Column("currency", String(3), nullable=False),
+    Column("payment_terms_days", Integer, nullable=False, server_default="30"),
+    Column("is_active", Boolean, nullable=False, server_default="true"),
+    Column(
+        "created_at",
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+    ),
+)
+
+purchase_orders = Table(
+    "purchase_orders",
+    metadata,
+    Column("po_id", Text, primary_key=True),
+    Column("po_number", Text, nullable=False, unique=True),
+    Column(
+        "supplier_id",
+        Text,
+        ForeignKey("suppliers.supplier_id"),
+        nullable=False,
+    ),
+    Column("currency", String(3), nullable=False),
+    Column("po_date", Date, nullable=False),
+    Column("status", Text, nullable=False),
+    Column(
+        "created_at",
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+    ),
+)
+
+po_lines = Table(
+    "po_lines",
+    metadata,
+    Column("po_line_id", Text, primary_key=True),
+    Column("po_id", Text, ForeignKey("purchase_orders.po_id"), nullable=False),
+    Column("line_number", Integer, nullable=False),
+    Column("sku", Text),
+    Column("description", Text, nullable=False),
+    Column("quantity_ordered", Numeric(18, 4), nullable=False),
+    Column("unit_price", Numeric(18, 4), nullable=False),
+    Column("unit_of_measure", Text, nullable=False, server_default="EA"),
+    Column("match_type", Text, nullable=False, server_default="THREE_WAY"),
+    Column(
+        "created_at",
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+    ),
+)
+
+goods_receipts = Table(
+    "goods_receipts",
+    metadata,
+    Column("gr_id", Text, primary_key=True),
+    Column("gr_number", Text, nullable=False, unique=True),
+    Column("po_id", Text, ForeignKey("purchase_orders.po_id"), nullable=False),
+    Column("received_date", Date, nullable=False),
+    Column(
+        "created_at",
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+    ),
+)
+
+goods_receipt_lines = Table(
+    "goods_receipt_lines",
+    metadata,
+    Column("gr_line_id", Text, primary_key=True),
+    Column("gr_id", Text, ForeignKey("goods_receipts.gr_id"), nullable=False),
+    Column(
+        "po_line_id",
+        Text,
+        ForeignKey("po_lines.po_line_id"),
+        nullable=False,
+    ),
+    Column("quantity_received", Numeric(18, 4), nullable=False),
+    Column(
+        "created_at",
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+    ),
+)
+
+invoices = Table(
+    "invoices",
+    metadata,
+    Column("invoice_id", Text, primary_key=True),
+    Column(
+        "extraction_id",
+        Text,
+        ForeignKey("extraction_results.extraction_id"),
+        nullable=False,
+    ),
+    Column("supplier_id", Text, ForeignKey("suppliers.supplier_id")),
+    Column("supplier_resolution_method", Text),
+    Column("supplier_resolution_score", Numeric(5, 4)),
+    Column("po_number", Text),
+    Column("po_id", Text, ForeignKey("purchase_orders.po_id")),
+    Column("invoice_number", Text),
+    Column("invoice_date", Date),
+    Column("due_date", Date),
+    Column("currency", String(3)),
+    Column("net_amount", Numeric(18, 4)),
+    Column("tax_amount", Numeric(18, 4)),
+    Column("total_amount", Numeric(18, 4)),
+    Column("match_status", Text, nullable=False, server_default="PENDING"),
+    Column("matched_at", DateTime(timezone=True)),
+    Column("duplicate_of_invoice_id", Text, ForeignKey("invoices.invoice_id")),
+    Column(
+        "created_at",
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+    ),
+)
+
+invoice_lines = Table(
+    "invoice_lines",
+    metadata,
+    Column("invoice_line_id", Text, primary_key=True),
+    Column("invoice_id", Text, ForeignKey("invoices.invoice_id"), nullable=False),
+    Column("line_number", Integer, nullable=False),
+    Column("description", Text),
+    Column("sku", Text),
+    Column("quantity", Numeric(18, 4)),
+    Column("unit_price", Numeric(18, 4)),
+    Column("line_total", Numeric(18, 4)),
+    Column("po_line_id", Text, ForeignKey("po_lines.po_line_id")),
+    Column("match_method", Text),
+    Column("match_score", Numeric(5, 4)),
+    Column("suggested_po_line_id", Text, ForeignKey("po_lines.po_line_id")),
+    Column("match_status", Text, nullable=False, server_default="PENDING"),
+    Column(
+        "created_at",
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+    ),
+)
+
+exceptions = Table(
+    "exceptions",
+    metadata,
+    Column("exception_id", BigInteger, primary_key=True, autoincrement=True),
+    Column("invoice_id", Text, ForeignKey("invoices.invoice_id"), nullable=False),
+    Column("invoice_line_id", Text, ForeignKey("invoice_lines.invoice_line_id")),
+    Column("exception_key", Text, nullable=False),
+    Column("exception_type", Text, nullable=False),
+    Column("severity", Text, nullable=False),
+    Column("source", Text, nullable=False, server_default="MATCHER"),
+    Column("field_path", Text),
+    Column("expected_value", Text),
+    Column("actual_value", Text),
+    Column("variance_amount", Numeric(18, 4)),
+    Column("variance_pct", Numeric(9, 4)),
+    Column("detail", Text, nullable=False),
+    Column("status", Text, nullable=False, server_default="OPEN"),
+    Column("resolved_by", Text),
+    Column("resolved_at", DateTime(timezone=True)),
+    Column(
+        "created_at",
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+    ),
+    Column(
+        "updated_at",
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+    ),
+    UniqueConstraint("invoice_id", "exception_key", name="exceptions_invoice_key_uidx"),
 )

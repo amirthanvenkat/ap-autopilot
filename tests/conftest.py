@@ -44,6 +44,14 @@ DEV_TOKEN = "test-dev-token"
 _schema_applied = False
 
 _TABLES = (
+    "exceptions",
+    "invoice_lines",
+    "invoices",
+    "goods_receipt_lines",
+    "goods_receipts",
+    "po_lines",
+    "purchase_orders",
+    "suppliers",
     "extraction_fields",
     "extraction_results",
     "extraction_jobs",
