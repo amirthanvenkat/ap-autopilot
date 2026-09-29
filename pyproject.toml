@@ -43,6 +43,11 @@ line-length = 88
 target-version = "py312"
 src = ["src", "tests"]
 
+[tool.ruff.format]
+# Migrations are forward-only and never edited once applied, so the
+# formatter must not rewrite them. They are still linted.
+exclude = ["sql/schema/versions/*"]
+
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "UP", "B", "A", "C4", "PT", "SIM", "RUF"]
 ignore = ["B008"]
