@@ -80,9 +80,12 @@ class Settings(BaseSettings):
     http_max_delay_seconds: float = Field(default=32.0)
     publish_timeout_seconds: float = Field(default=0.25)
 
-    @field_validator("fixtures_dir")
+    # Matching rules, spec 02 section 9. Validated at startup.
+    rules_path: Path = Field(default=_REPO_ROOT / "config" / "rules.yaml")
+
+    @field_validator("fixtures_dir", "rules_path")
     @classmethod
-    def _resolve_fixtures_dir(cls, value: Path) -> Path:
+    def _resolve_repo_path(cls, value: Path) -> Path:
         return value if value.is_absolute() else (_REPO_ROOT / value).resolve()
 
     @property

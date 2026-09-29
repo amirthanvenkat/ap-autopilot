@@ -19,6 +19,7 @@ dependencies = [
     # Required by FastAPI to parse multipart/form-data, which is how
     # POST /v1/documents receives a file.
     "python-multipart>=0.0.20",
+    "pyyaml>=6.0",
 ]
 
 [dependency-groups]
@@ -29,6 +30,7 @@ dev = [
     "ruff>=0.8",
     "mypy>=1.13",
     "types-jsonschema>=4.23",
+    "types-pyyaml>=6.0",
 ]
 
 [build-system]

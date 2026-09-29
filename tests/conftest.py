@@ -29,6 +29,7 @@ from src.common.runtime import configure_event_loop
 from src.common.storage import LocalObjectStore
 from src.extraction.docai import FixtureDocumentAIClient
 from src.ingestion.gmail import FixtureGmailClient
+from src.matching.rules import load_rules
 
 # psycopg's async driver refuses the proactor loop that Windows defaults to.
 # Applied at import, before pytest-asyncio creates any loop, or every
@@ -175,6 +176,7 @@ def deps(
         gmail=FixtureGmailClient(fixtures_settings),
         publisher=NullPublisher(),
         verifier=SharedSecretVerifier(fixtures_settings),
+        rules=load_rules(fixtures_settings.rules_path),
     )
 
 

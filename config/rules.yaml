@@ -1,0 +1,53 @@
+# Matching rules for spec 02. Every threshold, tolerance and severity the
+# matcher uses comes from this file. It is validated at startup by
+# src/matching/rules.py, and an invalid file stops the service booting.
+#
+# Numbers are read as Decimal, never float (CLAUDE.md rule 5.7).
+
+version: 1
+
+# Header fields only, decided 2026-09-26. default applies to every header
+# field without its own entry.
+confidence:
+  default: 0.85
+  fields:
+    invoice_number: 0.95
+    total_amount:   0.98
+    tax_amount:     0.95
+    invoice_date:   0.90
+    supplier_name:  0.90
+
+# A value fails only when it strictly exceeds its limit.
+tolerances:
+  price_pct:        0.02
+  price_abs:        0.50
+  quantity_pct:     0.00
+  line_total_abs:   0.01
+  header_total_abs: 0.02
+  tax_abs:          0.01
+  # Absolute tolerances per currency. Only *_abs keys can be overridden:
+  # a percentage means the same in every currency. Entries to be added.
+  currency_overrides: {}
+
+supplier_resolution:
+  trigram_threshold: 0.82
+  ambiguity_margin:  0.05
+
+duplicates:
+  amount_tolerance_abs: 0.01
+  date_window_days:     45
+
+tax:
+  # The rate in effect on the invoice date applies, decided 2026-09-29.
+  rates:
+    - { code: SG_GST, rate: 0.09, effective_from: 2024-01-01 }
+    - { code: SG_GST, rate: 0.08, effective_from: 2023-01-01 }
+  # null disables TAX_ID_INVALID. The pattern must be checked against
+  # current IRAS guidance by a person before it is set (spec 02 section 8).
+  tax_id_pattern: null
+
+# Default severities are the spec 02 section 7 taxonomy, held in
+# src/matching/rules.py. Entries here replace them.
+severity_overrides:
+  QUANTITY_VARIANCE:   WARN
+  DUPLICATE_SUSPECTED: WARN

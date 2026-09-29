@@ -17,6 +17,7 @@ from src.common.oidc import TokenVerifier, build_verifier
 from src.common.storage import ObjectStore, build_object_store
 from src.extraction.docai import DocumentAIClient, build_document_ai_client
 from src.ingestion.gmail import GmailClient, build_gmail_client
+from src.matching.rules import MatchingRules, load_rules
 
 
 @dataclass(frozen=True)
@@ -30,6 +31,7 @@ class Dependencies:
     gmail: GmailClient
     publisher: Publisher
     verifier: TokenVerifier
+    rules: MatchingRules
 
 
 def build_dependencies(settings: Settings | None = None) -> Dependencies:
@@ -45,4 +47,5 @@ def build_dependencies(settings: Settings | None = None) -> Dependencies:
         gmail=build_gmail_client(cfg),
         publisher=build_publisher(cfg),
         verifier=build_verifier(cfg),
+        rules=load_rules(cfg.rules_path),
     )
