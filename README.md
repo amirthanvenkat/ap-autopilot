@@ -258,22 +258,73 @@ raised `NO_PO_REFERENCE`, and no line could match by SKU.
   Changing a source document changes its content hash, so the generator
   now clears the cached responses before writing them.
 
-### 5.2 Flow and trigger
+### 5.2 Flow and canonicalisation
 
-1. **Enqueue.** The transaction that stores an extraction also inserts a
-   `match_invoice` outbox task. It uses the mechanism from 4.1 and needs no
-   new infrastructure.
-2. **Canonicalise.** `extraction_results` becomes `invoices` and
-   `invoice_lines`. The invoice id is derived from `extraction_id`, and the
-   insert uses `on conflict (extraction_id) do nothing`. Spec 01 keeps what
-   the model said. Spec 02 records what the system believes.
-3. **Resolve the supplier** (5.4).
-4. **Match.** Lock the PO, run the line match, the header checks and
-   duplicate detection, write the exceptions, and set `match_status`. All of
-   this happens in one transaction.
+Decided on 2026-10-02.
 
-Delivering the same task three times gives one invoice and one set of
-exceptions.
+**Trigger.** The transaction that stores an extraction also queues a
+`match_invoice` task. Its message id is derived from the `extraction_id`,
+using the same pattern as the completion task in 4.1. A stored extraction
+therefore always has a queued task. The payload carries only the
+`extraction_id`.
+
+**One task, one transaction.** Each step below either completes with the
+rest or rolls back with them:
+
+1. **Skip if final.** If the invoice already exists and is `POSTED` or
+   `REJECTED`, log it and return. A duplicate delivery after posting is
+   harmless and must not mark the task `FAILED`. Only an explicit re-match
+   request in spec 03 treats it as an error.
+2. **Resolve once.** If the invoice does not exist yet, resolve the supplier
+   (5.4) and the PO. A re-match never resolves again. The invoice row
+   records what the system believes, and changing that is a reviewer
+   action in spec 03.
+3. **Duplicate lock.** When supplier and invoice number are both known, take
+   `pg_advisory_xact_lock` on the pair. Then look for an existing original
+   and insert the new invoice as an original or as a recorded duplicate
+   (5.7). The unique index is the backstop. If it ever fires, the worker
+   treats it as transient and the retry records a duplicate.
+4. **Insert.** The invoice id is derived from the `extraction_id`, with
+   `on conflict (extraction_id) do nothing`. Lines are built in one
+   set-based insert from `extraction_fields`, which holds the validated,
+   normalised values. A field that was never reported has no row and
+   becomes null. Quantities extracted to six places are rounded to the four
+   of `invoice_lines.quantity`. The unrounded value stays in
+   `extraction_fields`.
+5. **Match.** Derive the exceptions from the invoice's facts and the line
+   match, upsert them, and set `match_status`.
+
+Lock order is always the duplicate lock first, then the PO row. Spec 03's
+re-match must follow the same order.
+
+**Facts, not exceptions.** Canonicalisation records the facts: the supplier
+or the reason for having none, the PO or the reason for having none, and
+the original of a duplicate. The match step derives every exception from
+those facts on every run. The exception upsert resolves any matcher row a
+run does not raise again. If canonicalisation wrote `SUPPLIER_UNRESOLVED`
+once, the next re-match would silently resolve it.
+
+**PO resolution.**
+
+- PO numbers are compared ignoring case and punctuation, so
+  `PO 2026-0101` finds `PO-2026-0101`.
+- No PO number gives `NO_PO_REFERENCE`.
+- An unknown, `CANCELLED` or `CLOSED` PO gives `PO_NOT_FOUND`. So does a PO
+  that belongs to a different supplier from the resolved one. The detail
+  says which case it was.
+- If the supplier is unresolved, an open PO is still recorded. The invoice
+  is already blocked by `SUPPLIER_UNRESOLVED`, and the PO is not used to
+  guess the supplier.
+
+**Failure modes.**
+
+| Scenario | Outcome |
+| --- | --- |
+| Task delivered twice | The derived message id collides on `processed_events` |
+| Lease expires under a slow worker and a second worker starts | The second insert waits on the extraction unique index, then does nothing. The re-match is idempotent, so the end state is the same |
+| Crash mid-task | Rollback. The task retries from scratch |
+| Two copies of one invoice arrive together | The advisory lock serialises them: one original, one recorded duplicate |
+| Extraction failed validation | No result, so no task |
 
 ### 5.3 Schema additions beyond spec 02 section 3
 
@@ -419,7 +470,8 @@ for capacity, so they all go in the first round.
 
 **Re-runs.**
 
-- A `POSTED` invoice is never re-matched. The attempt raises a typed
+- A `POSTED` or `REJECTED` invoice is never re-matched. The worker skips
+  it (5.2). An explicit re-match request in spec 03 raises a typed
   `PermanentError`.
 - Otherwise exceptions are upserted, not replaced (6.8, adopted). Each row
   carries an `exception_key` built from what it is about. Examples:
@@ -464,11 +516,19 @@ A second statement in the same transaction runs these:
   future.
 - `TAX_ID_INVALID` (`WARN`): disabled until a verified pattern exists (7.1).
 - `LOW_CONFIDENCE`: applies to **header fields only**, decided on
-  2026-09-26. A field that is present but has null confidence counts as low.
-  A header field with a configured threshold that is absent, or present with
-  a null value, raises `LOW_CONFIDENCE` with a null actual value. This is
-  where spec 01's distinction between a missing key and a null value is
-  used. The detail text records which of the two it was.
+  2026-09-26. The trigger is confidence, not absence, corrected on
+  2026-10-02. It is raised in two cases:
+  - A header field with a value whose confidence is below its threshold, or
+    null.
+  - A required field (`invoice_number`, `total_amount`, `currency`) that was
+    reported with no value.
+
+  An optional field that was never reported raises nothing here. The
+  specific checks deal with the consequence: a missing PO number is
+  `NO_PO_REFERENCE`, not also `LOW_CONFIDENCE`. Without this correction,
+  every invoice from a supplier that is not GST-registered would block on
+  its missing tax ID. This is where spec 01's distinction between a missing
+  key and a null value is used.
 
 A `BLOCK` sets the invoice to `EXCEPTION`. `WARN` rows still allow `MATCHED`
 and are shown to the reviewer afterwards. No path sets `REJECTED`, because an

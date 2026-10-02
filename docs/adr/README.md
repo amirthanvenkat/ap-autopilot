@@ -65,3 +65,22 @@ Spec 02 decisions taken on 2026-09-29:
   named supplier is registered under another. Inactive suppliers are never
   resolved.
 - Tax IDs are unique and compared in normalised form (migration 0004).
+
+Spec 02 canonicalisation decisions, taken on 2026-10-02:
+
+- Canonicalisation and the match run as one task in one transaction.
+  Either the invoice exists with its exceptions and status, or nothing
+  does.
+- Supplier and PO are resolved once, when the invoice is created. A
+  re-match never resolves them again.
+- Canonicalisation records facts. Every exception is derived from them on
+  each run, so the upsert never resolves a fact-based exception by
+  omission.
+- Exact duplicates are serialised with an advisory lock on supplier and
+  invoice number. The unique index is the backstop.
+- An invoice that quotes another supplier's PO, or a closed PO, raises
+  `PO_NOT_FOUND` with a detail saying which. PO numbers are compared
+  ignoring case and punctuation.
+- `LOW_CONFIDENCE` is triggered by low confidence, or by a required field
+  reported with no value. An absent optional field raises nothing.
+- A task for a `POSTED` or `REJECTED` invoice is skipped, not failed.
