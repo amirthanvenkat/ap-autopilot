@@ -13,10 +13,10 @@ works, with the reasoning behind each decision written down.
 | Module | Spec | State |
 | --- | --- | --- |
 | Ingestion and extraction | `docs/specs/01-ingestion-and-extraction.md` | Built and tested, including the spec 02 prerequisite in 5.1 |
-| Matching engine | `docs/specs/02-matching-engine.md` | Schema, rules loader and supplier resolver built. Canonicalisation and match query not built |
+| Matching engine | `docs/specs/02-matching-engine.md` | Schema, rules, supplier resolution, canonicalisation and fact-based exceptions built. Line match, header checks and near duplicates not built |
 | Review queue, posting, analytics, MCP server | Specs 03 to 05 | Not started |
 
-Section 5 is partly design. The parts built so far are 5.1, 5.3, 5.4 and 5.8.
+Section 5 is partly design. The parts built so far are 5.1 to 5.4 and 5.8, plus the `LOW_CONFIDENCE` rule in 5.6 and the exact duplicate in 5.7.
 
 ## Contents
 
@@ -260,7 +260,9 @@ raised `NO_PO_REFERENCE`, and no line could match by SKU.
 
 ### 5.2 Flow and canonicalisation
 
-Decided on 2026-10-02.
+Decided and built on 2026-10-02: `src/matching/canonical.py`, `src/matching/worker.py`
+and the queries beside them. Until the line match exists, an invoice with
+no blocking fact stays `PENDING` rather than `MATCHED`.
 
 **Trigger.** The transaction that stores an extraction also queues a
 `match_invoice` task. Its message id is derived from the `extraction_id`,
@@ -343,6 +345,7 @@ These go in migration `0002`. Migrations are forward-only.
 | `exceptions.resolved_by`, `resolved_at` | Tells a matcher auto-close apart from a reviewer decision |
 | `pg_trgm` extension and a GIN trigram index on normalised supplier names | Supplier resolution. Neon supports `pg_trgm`. Confirm when the migration runs |
 | `normalise_tax_id()` and a unique index on it (migration `0004`) | One tax ID names one supplier however it is punctuated |
+| `invoices.supplier_resolution_note`, `po_resolution_note`, `normalise_reference()` and a normalised PO number index (migration `0005`) | The stored reasons become exception details on every run. PO lookup ignores case and punctuation (5.2) |
 
 ### 5.4 Supplier resolution
 
