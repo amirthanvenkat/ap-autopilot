@@ -8,16 +8,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from decimal import Decimal
-from functools import lru_cache
-from pathlib import Path
 
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncConnection
-from sqlalchemy.sql.elements import TextClause
 
 from src.matching.rules import MatchingRules
-
-_QUERIES = Path(__file__).resolve().parent / "queries"
+from src.matching.sql import query
 
 # One step of the stored score precision. The trigram prefilter compares a
 # real, so it is set this far below the lowest score that matters to keep
@@ -44,11 +40,6 @@ class SupplierResolution:
         return self.supplier_id is not None
 
 
-@lru_cache(maxsize=1)
-def _resolve_query() -> TextClause:
-    return text((_QUERIES / "resolve_supplier.sql").read_text("utf-8"))
-
-
 async def resolve_supplier(
     conn: AsyncConnection,
     *,
@@ -69,7 +60,7 @@ async def resolve_supplier(
     )
     row = (
         await conn.execute(
-            _resolve_query(),
+            query("resolve_supplier"),
             {
                 "tax_id": tax_id,
                 "name": name,
