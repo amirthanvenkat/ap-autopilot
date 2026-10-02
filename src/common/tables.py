@@ -414,8 +414,12 @@ invoices = Table(
     Column("supplier_id", Text, ForeignKey("suppliers.supplier_id")),
     Column("supplier_resolution_method", Text),
     Column("supplier_resolution_score", Numeric(5, 4)),
+    # Migration 0005: the detail of SUPPLIER_UNRESOLVED.
+    Column("supplier_resolution_note", Text),
     Column("po_number", Text),
     Column("po_id", Text, ForeignKey("purchase_orders.po_id")),
+    # Migration 0005: the detail of PO_NOT_FOUND.
+    Column("po_resolution_note", Text),
     Column("invoice_number", Text),
     Column("invoice_date", Date),
     Column("due_date", Date),

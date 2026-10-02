@@ -64,10 +64,12 @@ async def _invoice(
         text(
             """
             insert into invoices (invoice_id, extraction_id, supplier_id,
-                                  supplier_resolution_method, invoice_number,
+                                  supplier_resolution_method,
+                                  supplier_resolution_note, invoice_number,
                                   duplicate_of_invoice_id)
             values (:i, :e, :s,
                     case when cast(:s as text) is null then null else 'TAX_ID' end,
+                    case when cast(:s as text) is null then 'no match' end,
                     :n, :dup)
             """
         ),
@@ -253,3 +255,49 @@ async def test_tax_id_is_unique_in_normalised_form(engine: AsyncEngine) -> None:
             await conn.execute(
                 insert, {"s": "sup-2", "n": "Other", "t": " 2008-12345 k"}
             )
+
+
+async def test_an_unresolved_supplier_must_say_why(engine: AsyncEngine) -> None:
+    """The note is the SUPPLIER_UNRESOLVED detail a reviewer reads."""
+    async with engine.begin() as conn:
+        extraction_id = await _extraction(conn, "inv-1")
+    with pytest.raises(IntegrityError, match="invoices_unresolved_supplier_explained"):
+        async with engine.begin() as conn:
+            await conn.execute(
+                text(
+                    "insert into invoices (invoice_id, extraction_id) "
+                    "values ('inv-1', :e)"
+                ),
+                {"e": extraction_id},
+            )
+
+
+async def test_an_unresolved_po_number_must_say_why(engine: AsyncEngine) -> None:
+    async with engine.begin() as conn:
+        extraction_id = await _extraction(conn, "inv-1")
+    with pytest.raises(IntegrityError, match="invoices_unresolved_po_explained"):
+        async with engine.begin() as conn:
+            await conn.execute(
+                text(
+                    "insert into invoices (invoice_id, extraction_id, "
+                    "supplier_resolution_note, po_number) "
+                    "values ('inv-1', :e, 'no match', 'PO-1')"
+                ),
+                {"e": extraction_id},
+            )
+
+
+async def test_po_numbers_are_unique_ignoring_punctuation(
+    engine: AsyncEngine,
+) -> None:
+    """PO lookup ignores formatting, so it must find at most one PO."""
+    insert = text(
+        "insert into purchase_orders (po_id, po_number, supplier_id, currency, "
+        "po_date, status) values (:p, :n, 'sup-1', 'SGD', '2026-08-01', 'OPEN')"
+    )
+    async with engine.begin() as conn:
+        await _supplier(conn)
+        await conn.execute(insert, {"p": "po-1", "n": "PO-2026-0101"})
+    with pytest.raises(IntegrityError, match="purchase_orders_po_number_norm_uidx"):
+        async with engine.begin() as conn:
+            await conn.execute(insert, {"p": "po-2", "n": "po 2026 0101"})
