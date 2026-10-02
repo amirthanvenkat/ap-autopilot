@@ -35,6 +35,7 @@ log = get_logger(__name__)
 
 HANDLER_GMAIL_NOTIFY = "gmail_notify"
 HANDLER_EXTRACTION_COMPLETE = "extraction_complete"
+HANDLER_MATCH_INVOICE = "match_invoice"
 
 _ACCEPT_SQL = text(
     """

@@ -25,6 +25,7 @@ from src.common.logging import get_logger
 from src.common.outbox import (
     HANDLER_EXTRACTION_COMPLETE,
     HANDLER_GMAIL_NOTIFY,
+    HANDLER_MATCH_INVOICE,
     OutboxTask,
     claim_batch,
     claim_task,
@@ -57,10 +58,12 @@ def _handlers() -> dict[str, TaskHandler]:
     # without a cycle.
     from src.extraction.worker import process_extraction_complete
     from src.ingestion.worker import process_gmail_notification
+    from src.matching.worker import process_match_invoice
 
     return {
         HANDLER_GMAIL_NOTIFY: process_gmail_notification,
         HANDLER_EXTRACTION_COMPLETE: process_extraction_complete,
+        HANDLER_MATCH_INVOICE: process_match_invoice,
     }
 
 

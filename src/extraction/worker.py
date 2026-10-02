@@ -15,7 +15,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from src.common.acceptance import task_data
+from src.common.acceptance import publish_best_effort, task_data
 from src.common.db import transaction
 from src.common.deps import Dependencies
 from src.common.errors import ExtractionSchemaError
@@ -30,6 +30,7 @@ from src.extraction.validation import (
 )
 from src.ingestion import repository as ingestion_repo
 from src.ingestion.service import output_prefix_for, parse_object_name
+from src.matching.worker import queue_match
 
 log = get_logger(__name__)
 
@@ -146,6 +147,11 @@ async def process_extraction_complete(
             raw_gcs_uri=raw_gcs_uri,
         )
         await ingestion_repo.succeed_job(conn, job_id=job_id)
+        # Same commit as the result, so a stored extraction always has a
+        # queued match (README 5.2).
+        match_task_id = await queue_match(conn, extraction_id=stored.extraction_id)
+
+    await publish_best_effort(deps, task_id=match_task_id)
 
     log.info(
         "extraction.stored",
